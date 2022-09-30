@@ -1,19 +1,22 @@
 package com.deveone.censumcubiles.Material;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Comparator;
 
 public enum MaterialCategory {
-    NO_CATEGORY ("Без категории"),
-    METALWARE ("Метизы"),
-    MECHANISM ("Механизмы"),
-    WOOD ("Дерево"),
-    POROLON ("Поролон"),
-    FABRIC ("Ткань");
+    METALWARE ("Метизы", 1),
+    MECHANISM ("Механизмы", 2),
+    WOOD ("Дерево", 3),
+    POROLON ("Поролон", 4),
+    FABRIC ("Ткань", 5),
+    NO_CATEGORY ("Без категории", 6);
 
     private final String ruName;
+    private final int order;
 
-    MaterialCategory(String ruName) {
+    MaterialCategory(String ruName, int order) {
         this.ruName = ruName;
+        this.order = order;
     }
 
     public String getDecodedRuName() { //Абсолютно неясно поведение кодировок строк в связке с mySql
@@ -35,4 +38,6 @@ public enum MaterialCategory {
             if (v.getDecodedRuName().equalsIgnoreCase(decodedValue)) return v;
         throw new IllegalArgumentException();
     }
+
+    public static final Comparator<MaterialCategory> categoryComparator = Comparator.comparingInt(o -> o.order);
 }

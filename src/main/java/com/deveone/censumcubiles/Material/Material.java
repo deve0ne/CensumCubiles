@@ -9,13 +9,14 @@ public class Material {
     private SimpleStringProperty name;
     private SimpleIntegerProperty amount = new SimpleIntegerProperty(0);
     private SimpleIntegerProperty oneCost;
-    private SimpleIntegerProperty totalCost = new SimpleIntegerProperty(0);
+    private SimpleIntegerProperty totalCost;
 
     public Material() {
         this.id = new SimpleIntegerProperty(-1);
         this.category = MaterialCategory.NO_CATEGORY;
         this.name = new SimpleStringProperty("");
         this.oneCost = new SimpleIntegerProperty(0);
+        this.totalCost = new SimpleIntegerProperty(0);
     }
 
     public Material(int id, MaterialCategory category, String name, int amount, int oneCost) {
@@ -24,6 +25,7 @@ public class Material {
         this.name = new SimpleStringProperty(name);
         this.amount = new SimpleIntegerProperty(amount);
         this.oneCost = new SimpleIntegerProperty(oneCost);
+        this.totalCost = new SimpleIntegerProperty(amount * oneCost);
     }
     public Material(MaterialCategory category, String name, int amount, int oneCost) {
         this.id = new SimpleIntegerProperty(-1);
@@ -31,6 +33,11 @@ public class Material {
         this.name = new SimpleStringProperty(name);
         this.amount = new SimpleIntegerProperty(amount);
         this.oneCost = new SimpleIntegerProperty(oneCost);
+        this.totalCost = new SimpleIntegerProperty(amount * oneCost);
+    }
+
+    private void recalcTotalCost() {
+        totalCost.set(amount.get() * oneCost.get());
     }
 
     public int getId() {
@@ -75,18 +82,20 @@ public class Material {
 
     public void setAmount(int amount) {
         this.amount.set(amount);
+        recalcTotalCost();
     }
 
     public int getOneCost() {
         return oneCost.get();
     }
 
-    public SimpleIntegerProperty oneCostProperty() {
-        return oneCost;
-    }
-
     public void setOneCost(int oneCost) {
         this.oneCost.set(oneCost);
+        recalcTotalCost();
+    }
+
+    public SimpleIntegerProperty oneCostProperty() {
+        return oneCost;
     }
 
     public int getTotalCost() {

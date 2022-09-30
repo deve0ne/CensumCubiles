@@ -55,7 +55,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="768.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="com.deveone.censumcubiles.CensumCubilesController">
+<VBox prefHeight="768.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.deveone.censumcubiles.CensumCubilesController">
   <children>
     <MenuBar VBox.vgrow="NEVER">
       <menus>
@@ -146,12 +146,7 @@
                            <top>
                               <HBox maxWidth="1.7976931348623157E308">
                                  <children>
-                                    <Label maxHeight="1.7976931348623157E308" text="Поиск">
-                                       <padding>
-                                          <Insets left="10.0" right="5.0" />
-                                       </padding>
-                                    </Label>
-                                    <TextField maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
+                                    <TextField fx:id="materialSearch" maxWidth="1.7976931348623157E308" promptText="Поиск по названию" HBox.hgrow="ALWAYS">
                                        <HBox.margin>
                                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                        </HBox.margin>
@@ -166,7 +161,7 @@
                                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                        </HBox.margin>
                                        <children>
-                                          <Button fx:id="addRowButton" alignment="CENTER" mnemonicParsing="false" onMousePressed="#onAddRowPressed" prefHeight="25.0" prefWidth="157.0" text="Приход" HBox.hgrow="SOMETIMES">
+                                          <Button fx:id="arrivalButton" alignment="CENTER" mnemonicParsing="false" onMousePressed="#onArrivalPressed" prefHeight="25.0" prefWidth="157.0" text="Приход" HBox.hgrow="SOMETIMES">
                                              <HBox.margin>
                                                 <Insets />
                                              </HBox.margin>
