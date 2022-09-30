@@ -11,17 +11,25 @@ public class Material {
     private SimpleIntegerProperty oneCost;
     private SimpleIntegerProperty totalCost = new SimpleIntegerProperty(0);
 
-    public Material(int id) {
-        this.id = new SimpleIntegerProperty(id);
+    public Material() {
+        this.id = new SimpleIntegerProperty(-1);
         this.category = MaterialCategory.NO_CATEGORY;
         this.name = new SimpleStringProperty("");
         this.oneCost = new SimpleIntegerProperty(0);
     }
 
-    public Material(int id, MaterialCategory category, String name, int oneCost) {
+    public Material(int id, MaterialCategory category, String name, int amount, int oneCost) {
         this.id = new SimpleIntegerProperty(id);
         this.category = category;
         this.name = new SimpleStringProperty(name);
+        this.amount = new SimpleIntegerProperty(amount);
+        this.oneCost = new SimpleIntegerProperty(oneCost);
+    }
+    public Material(MaterialCategory category, String name, int amount, int oneCost) {
+        this.id = new SimpleIntegerProperty(-1);
+        this.category = category;
+        this.name = new SimpleStringProperty(name);
+        this.amount = new SimpleIntegerProperty(amount);
         this.oneCost = new SimpleIntegerProperty(oneCost);
     }
 

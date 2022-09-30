@@ -11,7 +11,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.converter.IntegerStringConverter;
 
-public class HelloController {
+public class CensumCubilesController {
     @FXML
     private TableView<Material> materialsTable;
     @FXML
@@ -32,32 +32,48 @@ public class HelloController {
 
         materialIndex.setEditable(false);
         materialIndex.setCellValueFactory(new PropertyValueFactory<>("id"));
+        materialIndex.setVisible(false);
 
         materialName.setCellValueFactory(new PropertyValueFactory<>("name"));
         materialName.setCellFactory(TextFieldTableCell.forTableColumn());
+        materialName.setOnEditCommit(o -> {
+            o.getRowValue().setName(o.getNewValue());
+            DBHelper.changeMaterial(o.getRowValue());
+        });
 
         materialCategory.setCellValueFactory(new PropertyValueFactory<>("category"));
         materialCategory.setCellFactory(ComboBoxTableCell.forTableColumn(MaterialCategory.values()));
+        materialCategory.setOnEditCommit(o -> {
+            o.getRowValue().setCategory(o.getNewValue());
+            DBHelper.changeMaterial(o.getRowValue());
+        });
 
         materialAmount.setCellValueFactory(new PropertyValueFactory<>("amount"));
         materialAmount.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+        materialAmount.setOnEditCommit(o -> {
+            o.getRowValue().setAmount(o.getNewValue());
+            DBHelper.changeMaterial(o.getRowValue());
+        });
 
         materialOneCost.setCellValueFactory(new PropertyValueFactory<>("oneCost"));
         materialOneCost.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+        materialOneCost.setOnEditCommit(o -> {
+            o.getRowValue().setOneCost(o.getNewValue());
+            DBHelper.changeMaterial(o.getRowValue());
+        });
 
         materialTotalCost.setCellValueFactory(new PropertyValueFactory<>("totalCost"));
-        materialTotalCost.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+        materialTotalCost.setEditable(false);
+//        materialTotalCost.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+//        materialTotalCost.setOnEditCommit(o -> o.getRowValue().setTotalCost(o.getNewValue()));
 
-        DBHelper.init();
+        materialsTable.getItems().addAll(DBHelper.getAllMaterials());
 
-        for (int i = 0; i < 100; i++) {
-            Material test = new Material(getLastMatId(), MaterialCategory.WOOD, "Фанера", 100);
-            materialsTable.getItems().add(test);
-        }
     }
 
     public void onAddRowPressed() {
-        Material newMat = new Material(getLastMatId());
+        Material newMat = new Material();
+        DBHelper.addMaterial(newMat);
         materialsTable.getItems().add(newMat);
         materialsTable.getSelectionModel().select(newMat);
         materialsTable.scrollTo(getLastMatId());
@@ -65,7 +81,11 @@ public class HelloController {
 
     public void onDelRowPressed() {
         Material selected = materialsTable.getSelectionModel().getSelectedItem();
+
+        if (selected == null) return;
+
         materialsTable.getItems().remove(selected);
+        DBHelper.removeMaterial(selected);
     }
 
     private int getLastMatId() {
