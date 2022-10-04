@@ -5,6 +5,7 @@ import com.deveone.censumcubiles.material.Material;
 import com.deveone.censumcubiles.material.MaterialCategory;
 import com.deveone.censumcubiles.material_arrival_dialog.MaterialArrivalDialog;
 import com.deveone.censumcubiles.tableview_formats.DoubleDecimalHideConverter;
+import com.deveone.censumcubiles.tableview_formats.DoublePriceConverter;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.ComboBoxTableCell;
@@ -15,22 +16,14 @@ import java.io.IOException;
 import java.util.stream.Stream;
 
 public class CensumCubilesController {
-    @FXML
-    private TableView<Material> materialsTable;
-    @FXML
-    private TableColumn<Material, Integer> materialIndex;
-    @FXML
-    private TableColumn<Material, MaterialCategory> materialCategory;
-    @FXML
-    private TableColumn<Material, String> materialName;
-    @FXML
-    private TableColumn<Material, Double> materialAmount;
-    @FXML
-    private TableColumn<Material, Double> materialOneCost;
-    @FXML
-    private TableColumn<Material, Integer> materialTotalCost;
-    @FXML
-    private TextField materialSearch;
+    public TableView<Material> materialsTable;
+    public TableColumn<Material, Integer> materialIndex;
+    public TableColumn<Material, MaterialCategory> materialCategory;
+    public TableColumn<Material, String> materialName;
+    public TableColumn<Material, Double> materialAmount;
+    public TableColumn<Material, Double> materialOneCost;
+    public TableColumn<Material, Double> materialTotalCost;
+    public TextField materialSearch;
 
     public void initialize() {
         materialsTable.setEditable(true);
@@ -70,7 +63,7 @@ public class CensumCubilesController {
         });
 
         materialOneCost.setCellValueFactory(new PropertyValueFactory<>("oneCost"));
-        materialOneCost.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleDecimalHideConverter()));
+        materialOneCost.setCellFactory(TextFieldTableCell.forTableColumn(new DoublePriceConverter()));
         materialOneCost.setOnEditCommit(o -> {
             o.getRowValue().setOneCost(o.getNewValue());
             DBHelper.changeMaterial(o.getRowValue());
@@ -78,15 +71,14 @@ public class CensumCubilesController {
 
         materialTotalCost.setCellValueFactory(new PropertyValueFactory<>("totalCost"));
         materialTotalCost.setEditable(false);
-//        materialTotalCost.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+        materialTotalCost.setCellFactory(TextFieldTableCell.forTableColumn(new DoublePriceConverter()));
 //        materialTotalCost.setOnEditCommit(o -> o.getRowValue().setTotalCost(o.getNewValue()));
 
-        materialsTable.getItems().addAll(DBHelper.getAllMaterials());
-        materialsTable.sort();
+        loadMatsToTable();
 
         materialSearch.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.equals("") || oldValue.length() > newValue.length())
-                materialsTable.getItems().setAll(DBHelper.getAllMaterials());
+                loadMatsToTable();
 
             Stream<Material> filteredMats = materialsTable.getItems().stream().filter(material ->
                     material.getName().toLowerCase().contains(newValue.toLowerCase()));
@@ -95,6 +87,11 @@ public class CensumCubilesController {
 
             materialsTable.sort();
         });
+    }
+
+    private void loadMatsToTable() {
+        materialsTable.getItems().setAll(DBHelper.getAllMaterials());
+        materialsTable.sort();
     }
 
     public void onAddRowPressed() {
@@ -117,7 +114,7 @@ public class CensumCubilesController {
 
     public void onArrivalPressed() {
         try {
-            new MaterialArrivalDialog();
+            new MaterialArrivalDialog().setOnHidden(o -> loadMatsToTable());
         } catch (IOException e) {
             System.err.println("Ошибка в создании диалога прихода");
         }

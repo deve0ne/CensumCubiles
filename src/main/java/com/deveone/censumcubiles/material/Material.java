@@ -10,7 +10,7 @@ public class Material {
     private final SimpleStringProperty name = new SimpleStringProperty("");
     private final SimpleDoubleProperty amount = new SimpleDoubleProperty(0);
     private final SimpleDoubleProperty oneCost = new SimpleDoubleProperty(0);
-    private final SimpleIntegerProperty totalCost = new SimpleIntegerProperty(0);
+    private final SimpleDoubleProperty totalCost = new SimpleDoubleProperty(0);
 
     public Material() {
         this.category = MaterialCategory.NO_CATEGORY;
@@ -26,7 +26,15 @@ public class Material {
     }
 
     private void recalcTotalCost() {
-        totalCost.set((int) (amount.get() * oneCost.get()));
+        totalCost.set(amount.get() * oneCost.get());
+    }
+    private void recalcOneCost() {
+        oneCost.set(totalCost.get() / amount.get());
+    }
+
+    public void mergeMaterial(Material matToMerge) {
+        addAmount(matToMerge.getAmount());
+        setOneCost((totalCost.get() + matToMerge.totalCost.get()) / amount.get());
     }
 
     public int getId() {
@@ -74,6 +82,10 @@ public class Material {
         recalcTotalCost();
     }
 
+    public void addAmount(double valueToAdd) {
+        amount.set(amount.get() + valueToAdd);
+    }
+
     public double getOneCost() {
         return oneCost.get();
     }
@@ -83,19 +95,21 @@ public class Material {
         recalcTotalCost();
     }
 
+
     public SimpleDoubleProperty oneCostProperty() {
         return oneCost;
     }
 
-    public int getTotalCost() {
+    public double getTotalCost() {
         return totalCost.get();
     }
 
-    public SimpleIntegerProperty totalCostProperty() {
+    public SimpleDoubleProperty totalCostProperty() {
         return totalCost;
     }
 
-    public void setTotalCost(int totalCost) {
+    public void setTotalCost(double totalCost) {
         this.totalCost.set(totalCost);
+        recalcOneCost();
     }
 }

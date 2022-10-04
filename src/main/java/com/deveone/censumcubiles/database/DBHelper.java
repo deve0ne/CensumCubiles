@@ -12,11 +12,35 @@ import java.util.Properties;
 
 
 public class DBHelper {
+
+    public static Material getMaterialByName(String materialName) {
+        String sql = ("SELECT * FROM censumcubilesdb.materials WHERE MatName = ?");
+
+        try (Connection conn = getConnection()) {
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1, materialName);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                int id = resultSet.getInt(1);
+                String category = resultSet.getString(2);
+                String matName = resultSet.getString(3);
+                double amount = resultSet.getDouble(4);
+                double oneCost = resultSet.getDouble(5);
+                return new Material(id, MaterialCategory.getEnum(category), matName, amount, oneCost);
+            }
+        } catch (Exception ex) {
+            printError(ex);
+        }
+
+        return null;
+    }
+
     public static ArrayList<Material> getAllMaterials() {
         ArrayList<Material> materials = new ArrayList<>();
 
         try (Connection conn = getConnection()) {
-
             Statement statement = conn.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM censumcubilesdb.materials");
 
