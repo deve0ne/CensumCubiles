@@ -1,4 +1,4 @@
-package com.deveone.censumcubiles.Material;
+package com.deveone.censumcubiles.material;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Comparator;

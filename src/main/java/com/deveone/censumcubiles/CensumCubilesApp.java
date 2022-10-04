@@ -10,8 +10,8 @@ import java.io.IOException;
 public class CensumCubilesApp extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(CensumCubilesApp.class.getResource("CensumCubiles.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 1080, 720);
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("main-layout.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("CensumCubiles");
         stage.setScene(scene);
         stage.show();

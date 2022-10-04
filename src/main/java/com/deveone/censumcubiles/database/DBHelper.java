@@ -1,7 +1,7 @@
-package com.deveone.censumcubiles.Database;
+package com.deveone.censumcubiles.database;
 
-import com.deveone.censumcubiles.Material.Material;
-import com.deveone.censumcubiles.Material.MaterialCategory;
+import com.deveone.censumcubiles.material.Material;
+import com.deveone.censumcubiles.material.MaterialCategory;
 
 import java.sql.*;
 
@@ -24,8 +24,8 @@ public class DBHelper {
                 int id = resultSet.getInt(1);
                 String category = resultSet.getString(2);
                 String matName = resultSet.getString(3);
-                int amount = resultSet.getInt(4);
-                int oneCost = resultSet.getInt(5);
+                double amount = resultSet.getDouble(4);
+                double oneCost = resultSet.getDouble(5);
                 Material mat = new Material(id, MaterialCategory.getEnum(category), matName, amount, oneCost);
                 materials.add(mat);
             }
@@ -42,8 +42,8 @@ public class DBHelper {
             try (PreparedStatement preparedStatement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
                 preparedStatement.setString(1, material.getCategory().getEncodedRuName());
                 preparedStatement.setString(2, material.getName());
-                preparedStatement.setInt(3, material.getAmount());
-                preparedStatement.setInt(4, material.getOneCost());
+                preparedStatement.setDouble(3, material.getAmount());
+                preparedStatement.setDouble(4, material.getOneCost());
 
                 preparedStatement.executeUpdate();
 
@@ -75,8 +75,8 @@ public class DBHelper {
             try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
                 preparedStatement.setString(1, newMaterial.getCategory().getEncodedRuName());
                 preparedStatement.setString(2, newMaterial.getName());
-                preparedStatement.setInt(3, newMaterial.getAmount());
-                preparedStatement.setInt(4, newMaterial.getOneCost());
+                preparedStatement.setDouble(3, newMaterial.getAmount());
+                preparedStatement.setDouble(4, newMaterial.getOneCost());
                 preparedStatement.setInt(5, newMaterial.getId());
 
                 preparedStatement.executeUpdate();

@@ -1,29 +1,17 @@
 package com.deveone.censumcubiles;
 
-import com.deveone.censumcubiles.Database.DBHelper;
-import com.deveone.censumcubiles.Material.Material;
-import com.deveone.censumcubiles.Material.MaterialCategory;
-import javafx.collections.FXCollections;
-import javafx.collections.transformation.FilteredList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import com.deveone.censumcubiles.database.DBHelper;
+import com.deveone.censumcubiles.material.Material;
+import com.deveone.censumcubiles.material.MaterialCategory;
+import com.deveone.censumcubiles.material_arrival_dialog.MaterialArrivalDialog;
+import com.deveone.censumcubiles.tableview_formats.DoubleDecimalHideConverter;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import javafx.util.converter.IntegerStringConverter;
 
+import java.io.IOException;
 import java.util.stream.Stream;
 
 public class CensumCubilesController {
@@ -36,9 +24,9 @@ public class CensumCubilesController {
     @FXML
     private TableColumn<Material, String> materialName;
     @FXML
-    private TableColumn<Material, Integer> materialAmount;
+    private TableColumn<Material, Double> materialAmount;
     @FXML
-    private TableColumn<Material, Integer> materialOneCost;
+    private TableColumn<Material, Double> materialOneCost;
     @FXML
     private TableColumn<Material, Integer> materialTotalCost;
     @FXML
@@ -75,14 +63,14 @@ public class CensumCubilesController {
         });
 
         materialAmount.setCellValueFactory(new PropertyValueFactory<>("amount"));
-        materialAmount.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+        materialAmount.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleDecimalHideConverter()));
         materialAmount.setOnEditCommit(o -> {
             o.getRowValue().setAmount(o.getNewValue());
             DBHelper.changeMaterial(o.getRowValue());
         });
 
         materialOneCost.setCellValueFactory(new PropertyValueFactory<>("oneCost"));
-        materialOneCost.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+        materialOneCost.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleDecimalHideConverter()));
         materialOneCost.setOnEditCommit(o -> {
             o.getRowValue().setOneCost(o.getNewValue());
             DBHelper.changeMaterial(o.getRowValue());
@@ -107,8 +95,6 @@ public class CensumCubilesController {
 
             materialsTable.sort();
         });
-
-
     }
 
     public void onAddRowPressed() {
@@ -130,19 +116,10 @@ public class CensumCubilesController {
     }
 
     public void onArrivalPressed() {
-        final Stage myDialog = new Stage();
-        myDialog.initModality(Modality.APPLICATION_MODAL);
-
-        Button okButton = new Button("CLOSE");
-        okButton.setOnAction(arg0 -> myDialog.close());
-
-        VBox vBox = new VBox();
-        vBox.getChildren().addAll(new Text("Hello! it's My Dialog."), okButton);
-        vBox.alignmentProperty().set(Pos.CENTER);
-        vBox.setPadding(new Insets(10));
-        Scene myDialogScene = new Scene(vBox);
-
-        myDialog.setScene(myDialogScene);
-        myDialog.show();
+        try {
+            new MaterialArrivalDialog();
+        } catch (IOException e) {
+            System.err.println("Ошибка в создании диалога прихода");
+        }
     }
 }
