@@ -1,9 +1,9 @@
-package com.deveone.censumcubiles.controllers;
+package com.deveone.censumcubiles.materialTab;
 
 import com.deveone.censumcubiles.database.DBHelper;
-import com.deveone.censumcubiles.material.Material;
-import com.deveone.censumcubiles.material.MaterialCategory;
-import com.deveone.censumcubiles.material_arrival_dialog.MaterialArrivalDialog;
+import com.deveone.censumcubiles.materialTab.material.Material;
+import com.deveone.censumcubiles.materialTab.material.MaterialCategory;
+import com.deveone.censumcubiles.materialTab.material_arrival_dialog.MaterialArrivalDialog;
 import com.deveone.censumcubiles.tableview_formats.DoubleDecimalHideConverter;
 import com.deveone.censumcubiles.tableview_formats.DoublePriceConverter;
 import javafx.scene.control.Button;
@@ -41,11 +41,11 @@ public class MaterialTabController {
         materialCategory.setCellValueFactory(new PropertyValueFactory<>("category"));
         materialCategory.setCellFactory(ComboBoxTableCell.forTableColumn(MaterialCategory.values()));
         materialCategory.setOnEditCommit(o -> {
-            Material mat = o.getRowValue();
-            mat.setCategory(o.getNewValue());
-            DBHelper.changeMaterial(mat);
+            Material newMat = o.getRowValue();
+            newMat.setCategory(o.getNewValue());
+            DBHelper.changeMaterial(newMat.getName(), newMat); //Т.к. имя не меняется, можем передавать одно и то же
             materialsTable.sort();
-            materialsTable.scrollTo(mat);
+            materialsTable.scrollTo(newMat);
         });
         materialCategory.setComparator(MaterialCategory.categoryComparator);
 //        materialCategory.setSortType(TableColumn.SortType.DESCENDING);
@@ -54,23 +54,29 @@ public class MaterialTabController {
         materialName.setCellValueFactory(new PropertyValueFactory<>("name"));
         materialName.setCellFactory(TextFieldTableCell.forTableColumn());
         materialName.setOnEditCommit(o -> {
-            o.getRowValue().setName(o.getNewValue());
-            DBHelper.changeMaterial(o.getRowValue());
+            Material newMat = o.getRowValue();
+            String oldName = newMat.getName();
+            newMat.setName(o.getNewValue());
+
+
+            DBHelper.changeMaterial(oldName, o.getRowValue());
             materialsTable.sort();
         });
 
         materialAmount.setCellValueFactory(new PropertyValueFactory<>("amount"));
         materialAmount.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleDecimalHideConverter()));
         materialAmount.setOnEditCommit(o -> {
-            o.getRowValue().setAmount(o.getNewValue());
-            DBHelper.changeMaterial(o.getRowValue());
+            Material newMat = o.getRowValue();
+            newMat.setAmount(o.getNewValue());
+            DBHelper.changeMaterial(newMat.getName(), newMat);
         });
 
         materialOneCost.setCellValueFactory(new PropertyValueFactory<>("oneCost"));
         materialOneCost.setCellFactory(TextFieldTableCell.forTableColumn(new DoublePriceConverter()));
         materialOneCost.setOnEditCommit(o -> {
-            o.getRowValue().setOneCost(o.getNewValue());
-            DBHelper.changeMaterial(o.getRowValue());
+            Material newMat = o.getRowValue();
+            newMat.setOneCost(o.getNewValue());
+            DBHelper.changeMaterial(newMat.getName(), newMat);
         });
 
         materialTotalCost.setCellValueFactory(new PropertyValueFactory<>("totalCost"));

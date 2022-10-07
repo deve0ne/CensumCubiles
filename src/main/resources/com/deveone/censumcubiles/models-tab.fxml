@@ -5,11 +5,11 @@
 <?import javafx.scene.control.TreeTableView?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.deveone.censumcubiles.controllers.ModelTabController">
+<VBox xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.deveone.censumcubiles.modelTab.ModelTabController">
    <children>
       <ScrollPane>
          <content>
-            <TreeTableView prefHeight="682.0" prefWidth="902.0">
+            <TreeTableView fx:id="modelsTable" prefHeight="682.0" prefWidth="902.0">
                <columns>
                   <TreeTableColumn fx:id="nameRow" prefWidth="277.0" text="Название" />
                   <TreeTableColumn fx:id="amountRow" prefWidth="94.0" text="Количество" />

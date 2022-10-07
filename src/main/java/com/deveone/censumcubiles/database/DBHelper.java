@@ -1,7 +1,7 @@
 package com.deveone.censumcubiles.database;
 
-import com.deveone.censumcubiles.material.Material;
-import com.deveone.censumcubiles.material.MaterialCategory;
+import com.deveone.censumcubiles.materialTab.material.Material;
+import com.deveone.censumcubiles.materialTab.material.MaterialCategory;
 
 import java.sql.*;
 
@@ -12,9 +12,8 @@ import java.util.Properties;
 
 
 public class DBHelper {
-
     public static Material getMaterialByName(String materialName) {
-        String sql = ("SELECT * FROM censumcubilesdb.materials WHERE MatName = ?");
+        String sql = ("SELECT * FROM censumcubilesdb.materials WHERE mat_name = ?");
 
         try (Connection conn = getConnection()) {
             PreparedStatement statement = conn.prepareStatement(sql);
@@ -23,12 +22,11 @@ public class DBHelper {
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
-                int id = resultSet.getInt(1);
+                String matName = resultSet.getString(1);
                 String category = resultSet.getString(2);
-                String matName = resultSet.getString(3);
-                double amount = resultSet.getDouble(4);
-                double oneCost = resultSet.getDouble(5);
-                return new Material(id, MaterialCategory.getEnum(category), matName, amount, oneCost);
+                double amount = resultSet.getDouble(3);
+                double oneCost = resultSet.getDouble(4);
+                return new Material(matName, MaterialCategory.getEnum(category), amount, oneCost);
             }
         } catch (Exception ex) {
             printError(ex);
@@ -45,12 +43,11 @@ public class DBHelper {
             ResultSet resultSet = statement.executeQuery("SELECT * FROM censumcubilesdb.materials");
 
             while (resultSet.next()) {
-                int id = resultSet.getInt(1);
+                String matName = resultSet.getString(1);
                 String category = resultSet.getString(2);
-                String matName = resultSet.getString(3);
-                double amount = resultSet.getDouble(4);
-                double oneCost = resultSet.getDouble(5);
-                Material mat = new Material(id, MaterialCategory.getEnum(category), matName, amount, oneCost);
+                double amount = resultSet.getDouble(3);
+                double oneCost = resultSet.getDouble(4);
+                Material mat = new Material(matName, MaterialCategory.getEnum(category), amount, oneCost);
                 materials.add(mat);
             }
         } catch (Exception ex) {
@@ -61,19 +58,16 @@ public class DBHelper {
     }
 
     public static void addMaterial(Material material) {
+        // TODO: 07.10.2022 добавить проверку на существование материала
         try (Connection conn = getConnection()) {
-            String sql = "INSERT INTO censumcubilesdb.materials(Category, MatName, Amount, OneCost) Values (?, ?, ?, ?)";
-            try (PreparedStatement preparedStatement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-                preparedStatement.setString(1, material.getCategory().getEncodedRuName());
-                preparedStatement.setString(2, material.getName());
+            String sql = "INSERT INTO censumcubilesdb.materials(mat_name, category, amount, cost) Values (?, ?, ?, ?)";
+            try (PreparedStatement preparedStatement = conn.prepareStatement(sql /*, Statement.RETURN_GENERATED_KEYS*/)) {
+                preparedStatement.setString(1, material.getName());
+                preparedStatement.setString(2, material.getCategory().getEncodedRuName());
                 preparedStatement.setDouble(3, material.getAmount());
                 preparedStatement.setDouble(4, material.getOneCost());
 
                 preparedStatement.executeUpdate();
-
-                ResultSet rs = preparedStatement.getGeneratedKeys();
-                if (rs.next())
-                    material.setId(Integer.parseInt(rs.getString(1))); //Для корректного отображения ID
             }
         } catch (Exception ex) {
             printError(ex);
@@ -82,9 +76,9 @@ public class DBHelper {
 
     public static void removeMaterial(Material material) {
         try (Connection conn = getConnection()) {
-            String sql = "DELETE FROM censumcubilesdb.materials WHERE id = ?";
+            String sql = "DELETE FROM censumcubilesdb.materials WHERE mat_name = ?";
             try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
-                preparedStatement.setInt(1, material.getId());
+                preparedStatement.setString(1, material.getName());
 
                 preparedStatement.executeUpdate();
             }
@@ -93,15 +87,15 @@ public class DBHelper {
         }
     }
 
-    public static void changeMaterial(Material newMaterial) {
+    public static void changeMaterial(String oldName, Material newMaterial) {
         try (Connection conn = getConnection()) {
-            String sql = "UPDATE censumcubilesdb.materials SET Category=?, MatName=?, Amount=?, OneCost=? WHERE Id=?";
+            String sql = "UPDATE censumcubilesdb.materials SET mat_name=?, category=?, amount=?, cost=? WHERE mat_name=?";
             try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
-                preparedStatement.setString(1, newMaterial.getCategory().getEncodedRuName());
-                preparedStatement.setString(2, newMaterial.getName());
+                preparedStatement.setString(1, newMaterial.getName());
+                preparedStatement.setString(2, newMaterial.getCategory().getEncodedRuName());
                 preparedStatement.setDouble(3, newMaterial.getAmount());
                 preparedStatement.setDouble(4, newMaterial.getOneCost());
-                preparedStatement.setInt(5, newMaterial.getId());
+                preparedStatement.setString(5, oldName);
 
                 preparedStatement.executeUpdate();
             }

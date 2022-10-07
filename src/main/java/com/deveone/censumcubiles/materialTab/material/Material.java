@@ -1,11 +1,9 @@
-package com.deveone.censumcubiles.material;
+package com.deveone.censumcubiles.materialTab.material;
 
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 public class Material {
-    private SimpleIntegerProperty id = new SimpleIntegerProperty(-1);
     private MaterialCategory category;
     private final SimpleStringProperty name = new SimpleStringProperty("");
     private final SimpleDoubleProperty amount = new SimpleDoubleProperty(0);
@@ -16,8 +14,7 @@ public class Material {
         this.category = MaterialCategory.NO_CATEGORY;
     }
 
-    public Material(int id, MaterialCategory category, String name, double amount, double oneCost) {
-        this.id = new SimpleIntegerProperty(id);
+    public Material(String name, MaterialCategory category, double amount, double oneCost) {
         this.category = category;
         this.name.set(name);
         this.amount.set(amount);
@@ -37,18 +34,6 @@ public class Material {
         setOneCost((totalCost.get() + matToMerge.totalCost.get()) / amount.get());
     }
 
-    public int getId() {
-        return id.get();
-    }
-
-    public SimpleIntegerProperty idProperty() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id.set(id);
-    }
-
     public MaterialCategory getCategory() {
         return category;
     }
@@ -60,6 +45,9 @@ public class Material {
     public String getName() {
         return name.get();
     }
+//    public String getDecodedName() {
+//        return new String(name.get().getBytes(StandardCharsets.UTF_8));
+//    }
 
     public SimpleStringProperty nameProperty() {
         return name;
