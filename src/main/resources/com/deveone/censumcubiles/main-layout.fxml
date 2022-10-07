@@ -56,11 +56,8 @@
 <?import javafx.scene.text.Font?>
 
 <VBox prefHeight="768.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.deveone.censumcubiles.CensumCubilesController">
-  <children>
     <MenuBar useSystemMenuBar="true" VBox.vgrow="NEVER">
-      <menus>
         <Menu mnemonicParsing="false" text="File">
-          <items>
             <MenuItem mnemonicParsing="false" text="New" />
             <MenuItem mnemonicParsing="false" text="Open…" />
             <Menu mnemonicParsing="false" text="Open Recent" />
@@ -73,10 +70,8 @@
             <MenuItem mnemonicParsing="false" text="Preferences…" />
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem mnemonicParsing="false" text="Quit" />
-          </items>
         </Menu>
         <Menu mnemonicParsing="false" text="Edit">
-          <items>
             <MenuItem mnemonicParsing="false" text="Undo" />
             <MenuItem mnemonicParsing="false" text="Redo" />
             <SeparatorMenuItem mnemonicParsing="false" />
@@ -87,149 +82,130 @@
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem mnemonicParsing="false" text="Select All" />
             <MenuItem mnemonicParsing="false" text="Unselect All" />
-          </items>
         </Menu>
         <Menu mnemonicParsing="false" text="Help">
-          <items>
             <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
-          </items>
         </Menu>
-      </menus>
     </MenuBar>
-      <TabPane tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
-         <tabs>
-            <Tab text="Диваны">
-               <content>
-                  <BorderPane prefHeight="200.0" prefWidth="200.0">
-                     <center>
-                    <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER">
-                           <content>
-                              <TreeTableView>
-                                <columns>
-                                  <TreeTableColumn prefWidth="98.0" text="Номер у нас" />
-                                  <TreeTableColumn minWidth="2.0" prefWidth="130.0" text="Номер оптовика" />
-                                    <TreeTableColumn prefWidth="73.0" text="Оптовик" />
-                                    <TreeTableColumn prefWidth="56.0" text="Модель" />
-                                    <TreeTableColumn prefWidth="78.0" text="Цвет/Ткань" />
-                                    <TreeTableColumn prefWidth="124.0" text="Дата производства" />
-                                    <TreeTableColumn prefWidth="101.0" text="Ответственные" />
-                                    <TreeTableColumn prefWidth="79.0" text="Стоимость" />
-                                </columns>
-                              </TreeTableView>
-                           </content>
-                    </ScrollPane>
-                     </center>
-                  </BorderPane>
-               </content>
-            </Tab>
-            <Tab text="Материалы">
-               <content>
-                  <VBox>
-                     <children>
-                        <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
-                           <center>
-                              <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="-1.0" prefWidth="-1.0" BorderPane.alignment="CENTER">
-                                 <content>
-                                    <TableView fx:id="materialsTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity">
-                                      <columns>
-                                          <TableColumn fx:id="materialIndex" prefWidth="36.0" text="ID" />
+    <TabPane tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
+        <Tab text="Диваны">
+            <content>
+                <BorderPane prefHeight="200.0" prefWidth="200.0">
+                    <center>
+                        <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER">
+                            <content>
+                                <TreeTableView>
+                                    <columns>
+                                        <TreeTableColumn prefWidth="98.0" text="Номер у нас" />
+                                        <TreeTableColumn minWidth="2.0" prefWidth="130.0" text="Номер оптовика" />
+                                        <TreeTableColumn prefWidth="73.0" text="Оптовик" />
+                                        <TreeTableColumn prefWidth="56.0" text="Модель" />
+                                        <TreeTableColumn prefWidth="78.0" text="Цвет/Ткань" />
+                                        <TreeTableColumn prefWidth="124.0" text="Дата производства" />
+                                        <TreeTableColumn prefWidth="101.0" text="Ответственные" />
+                                        <TreeTableColumn prefWidth="79.0" text="Стоимость" />
+                                    </columns>
+                                </TreeTableView>
+                            </content>
+                        </ScrollPane>
+                    </center>
+                </BorderPane>
+            </content>
+        </Tab>
+        <Tab text="Материалы">
+            <VBox>
+                <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+                    <center>
+                        <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER">
+                            <content>
+                                <TableView fx:id="materialsTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity">
+                                    <columns>
+                                        <TableColumn fx:id="materialIndex" prefWidth="36.0" text="ID" />
                                         <TableColumn fx:id="materialCategory" prefWidth="116.0" text="Категория" />
                                         <TableColumn fx:id="materialName" prefWidth="98.0" text="Название" />
-                                          <TableColumn fx:id="materialAmount" prefWidth="96.0" text="Кол-во" />
-                                          <TableColumn fx:id="materialOneCost" prefWidth="118.0" text="Стоимость за ед." />
-                                          <TableColumn fx:id="materialTotalCost" prefWidth="131.0" text="Стоимость общая" />
-                                      </columns>
-                                    </TableView>
-                                 </content>
-                              </ScrollPane>
-                           </center>
-                           <top>
-                              <HBox maxWidth="1.7976931348623157E308">
-                                 <children>
-                                    <TextField fx:id="materialSearch" maxWidth="1.7976931348623157E308" promptText="Поиск по названию" HBox.hgrow="ALWAYS">
-                                       <HBox.margin>
-                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                       </HBox.margin>
-                                    </TextField>
-                                    <Separator orientation="VERTICAL">
-                                       <HBox.margin>
-                                          <Insets />
-                                       </HBox.margin>
-                                    </Separator>
-                                    <HBox alignment="CENTER" HBox.hgrow="SOMETIMES">
-                                       <HBox.margin>
-                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                       </HBox.margin>
-                                       <children>
-                                          <Button fx:id="arrivalButton" alignment="CENTER" mnemonicParsing="false" onMousePressed="#onArrivalPressed" prefHeight="25.0" prefWidth="157.0" text="Приход" HBox.hgrow="SOMETIMES">
-                                             <HBox.margin>
-                                                <Insets />
-                                             </HBox.margin>
-                                          </Button>
-                                       </children>
-                                    </HBox>
-                                    <Separator orientation="VERTICAL">
-                                       <HBox.margin>
-                                          <Insets />
-                                       </HBox.margin>
-                                    </Separator>
-                                    <HBox alignment="CENTER" layoutX="1052.0" layoutY="15.0">
-                                       <children>
-                                          <Button fx:id="addRowButton1" alignment="CENTER" mnemonicParsing="false" onMousePressed="#onAddRowPressed" text="+ Добавить строку">
-                                             <HBox.margin>
-                                                <Insets right="5.0" />
-                                             </HBox.margin>
-                                          </Button>
-                                          <Button fx:id="delRowButton1" alignment="CENTER" mnemonicParsing="false" onMousePressed="#onDelRowPressed" text="- Удалить строку" />
-                                       </children>
-                                       <HBox.margin>
-                                          <Insets left="5.0" right="5.0" />
-                                       </HBox.margin>
-                                    </HBox>
-                                 </children>
-                              </HBox>
-                           </top>
-                        </BorderPane>
-                     </children>
-                  </VBox>
-               </content>
-            </Tab>
-            <Tab text="Модели диванов">
-               <content>
-                  <VBox>
-                     <children>
-                        <ScrollPane prefHeight="-1.0" prefWidth="-1.0">
-                           <content>
-                              <TreeTableView prefHeight="682.0" prefWidth="902.0">
-                                 <columns>
-                                    <TreeTableColumn prefWidth="277.0" text="Модель" />
-                                    <TreeTableColumn prefWidth="94.0" text="Количество" />
-                                    <TreeTableColumn minWidth="0.0" prefWidth="94.0" text="Стоимость" />
-                                 </columns>
-                              </TreeTableView>
-                           </content>
+                                        <TableColumn fx:id="materialAmount" prefWidth="96.0" text="Кол-во" />
+                                        <TableColumn fx:id="materialOneCost" prefWidth="118.0" text="Стоимость за ед." />
+                                        <TableColumn fx:id="materialTotalCost" prefWidth="131.0" text="Стоимость общая" />
+                                    </columns>
+                                </TableView>
+                            </content>
                         </ScrollPane>
-                     </children>
-                  </VBox>
-               </content>
-            </Tab>
-         </tabs>
-      </TabPane>
-      <HBox id="HBox" alignment="CENTER_LEFT" spacing="5.0" VBox.vgrow="NEVER">
-         <children>
-            <Label maxHeight="1.7976931348623157E308" maxWidth="-1.0" text="Left status" HBox.hgrow="ALWAYS" />
-            <Pane prefHeight="-1.0" prefWidth="-1.0" HBox.hgrow="ALWAYS" />
-            <Label maxWidth="-1.0" text="Right status" HBox.hgrow="NEVER">
-               <font>
+                    </center>
+                    <top>
+                        <HBox maxWidth="1.7976931348623157E308">
+                            <TextField fx:id="materialSearch" maxWidth="1.7976931348623157E308" promptText="Поиск по названию" HBox.hgrow="ALWAYS">
+                                <HBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                </HBox.margin>
+                            </TextField>
+                            <Separator orientation="VERTICAL">
+                                <HBox.margin>
+                                    <Insets />
+                                </HBox.margin>
+                            </Separator>
+                            <HBox alignment="CENTER" HBox.hgrow="SOMETIMES">
+                                <HBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                </HBox.margin>
+                                <Button fx:id="arrivalButton" alignment="CENTER" mnemonicParsing="false" onMousePressed="#onArrivalPressed" prefHeight="25.0" prefWidth="157.0" text="Приход" HBox.hgrow="SOMETIMES">
+                                    <HBox.margin>
+                                        <Insets />
+                                    </HBox.margin>
+                                </Button>
+                            </HBox>
+                            <Separator orientation="VERTICAL">
+                                <HBox.margin>
+                                    <Insets />
+                                </HBox.margin>
+                            </Separator>
+                            <HBox alignment="CENTER" layoutX="1052.0" layoutY="15.0">
+                                <HBox.margin>
+                                    <Insets left="5.0" right="5.0" />
+                                </HBox.margin>
+                                <Button fx:id="addRowButton" alignment="CENTER" mnemonicParsing="false" onMousePressed="#onAddRowPressed" text="+ Добавить строку">
+                                    <HBox.margin>
+                                        <Insets right="5.0" />
+                                    </HBox.margin>
+                                </Button>
+                                <Button fx:id="delRowButton" alignment="CENTER" mnemonicParsing="false" onMousePressed="#onDelRowPressed" text="- Удалить строку" />
+                            </HBox>
+                        </HBox>
+                    </top>
+                </BorderPane>
+            </VBox>
+        </Tab>
+        <Tab text="Модели диванов">
+            <VBox>
+                <ScrollPane>
+                    <content>
+                        <TreeTableView prefHeight="682.0" prefWidth="902.0">
+                            <columns>
+                                <TreeTableColumn fx:id="nameRow" prefWidth="277.0" text="Название" />
+                                <TreeTableColumn fx:id="amountRow" prefWidth="94.0" text="Количество" />
+                                <TreeTableColumn fx:id="priceRow" minWidth="0.0" prefWidth="94.0" text="Стоимость" />
+                                <TreeTableColumn fx:id="plusButtonRow" minWidth="0.0" prefWidth="94.0" sortable="false" />
+                            </columns>
+                        </TreeTableView>
+                    </content>
+                </ScrollPane>
+            </VBox>
+        </Tab>
+    </TabPane>
+    <HBox id="HBox" alignment="CENTER_LEFT" spacing="5.0" VBox.vgrow="NEVER">
+        <children>
+          <Label maxHeight="1.7976931348623157E308" maxWidth="-1.0" text="Left status" HBox.hgrow="ALWAYS" />
+          <Pane prefHeight="-1.0" prefWidth="-1.0" HBox.hgrow="ALWAYS" />
+          <Label maxWidth="-1.0" text="Right status" HBox.hgrow="NEVER">
+              <font>
                   <Font size="11.0" fx:id="x311" />
-               </font>
-               <textFill>
+              </font>
+              <textFill>
                   <Color red="0.625" green="0.625" blue="0.625" fx:id="x411" />
-               </textFill></Label>
-         </children>
-         <padding>
-            <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
-         </padding>
-      </HBox>
-  </children>
+              </textFill>
+          </Label>
+        </children>
+        <padding>
+          <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+        </padding>
+    </HBox>
 </VBox>

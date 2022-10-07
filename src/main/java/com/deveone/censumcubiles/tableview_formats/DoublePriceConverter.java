@@ -4,10 +4,9 @@ import javafx.util.converter.DoubleStringConverter;
 
 import java.text.DecimalFormat;
 
-public class DoublePriceConverter extends DoubleStringConverter {
+public class DoublePriceConverter extends DoubleDecimalHideConverter {
     @Override
     public Double fromString(String value) {
-        // If the specified value is null or zero-length, return null
         if (value == null)
             return null;
 
@@ -16,10 +15,9 @@ public class DoublePriceConverter extends DoubleStringConverter {
         if (value.length() < 1)
             return null;
 
-        value = value.replace(',', '.');
-        value = value.replace('\u20BD', ' ');
+        value = value.replaceAll("\u20BD", "");
 
-        return Double.valueOf(value);
+        return super.fromString(value);
     }
 
     @Override

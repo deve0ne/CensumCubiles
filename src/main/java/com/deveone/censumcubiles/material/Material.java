@@ -79,7 +79,10 @@ public class Material {
 
     public void setAmount(double amount) {
         this.amount.set(amount);
-        recalcTotalCost();
+        if (oneCost.get() > 0)
+            recalcTotalCost();
+        else if (totalCost.get() > 0)
+            recalcOneCost();
     }
 
     public void addAmount(double valueToAdd) {
@@ -92,7 +95,8 @@ public class Material {
 
     public void setOneCost(double oneCost) {
         this.oneCost.set(oneCost);
-        recalcTotalCost();
+        if (amount.get() > 0)
+            recalcTotalCost();
     }
 
 
@@ -110,6 +114,7 @@ public class Material {
 
     public void setTotalCost(double totalCost) {
         this.totalCost.set(totalCost);
-        recalcOneCost();
+        if (amount.get() > 0)
+            recalcOneCost();
     }
 }

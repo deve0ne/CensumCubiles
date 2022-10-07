@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class MaterialArrivalController {
     public TableView<Material> table;
 
-    //    public TableColumn<Material, String> categoryCol;
+    public TableColumn<Material, String> categoryCol;
     public TableColumn<Material, String> nameCol;
     public TableColumn<Material, Double> amountCol;
     public TableColumn<Material, Double> oneCostCol;
@@ -58,7 +58,7 @@ public class MaterialArrivalController {
             arrivedMats.remove(selected);
         });
 
-        applyButton.setOnMousePressed(o -> {
+        applyButton.setOnMouseClicked(o -> {
             for (Material arrivedMat : arrivedMats) {
                 Material matInDB = DBHelper.getMaterialByName(arrivedMat.getName());
 
@@ -74,7 +74,7 @@ public class MaterialArrivalController {
             stage.close();
         });
 
-        cancelButton.setOnMousePressed(o -> {
+        cancelButton.setOnMouseClicked(o -> {
             Button source = (Button) o.getSource();
             Stage stage = (Stage) source.getScene().getWindow();
             stage.close();
@@ -86,25 +86,20 @@ public class MaterialArrivalController {
 
         nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         nameCol.setCellFactory(TextFieldTableCell.forTableColumn());
-        nameCol.setOnEditCommit(o -> {
-            o.getRowValue().setName(o.getNewValue());
-//            DBHelper.changeMaterial(o.getRowValue());
-        });
+        nameCol.setOnEditCommit(o -> o.getRowValue().setName(o.getNewValue()));
 
         amountCol.setCellValueFactory(new PropertyValueFactory<>("amount"));
         amountCol.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleDecimalHideConverter()));
         amountCol.setOnEditCommit(o -> {
-            o.getRowValue().setAmount(o.getNewValue());
+            o.getRowValue().setAmount( o.getNewValue());
             recalcSumCost();
-//            DBHelper.changeMaterial(o.getRowValue());
         });
 
         oneCostCol.setCellValueFactory(new PropertyValueFactory<>("oneCost"));
-        oneCostCol.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleDecimalHideConverter()));
+        oneCostCol.setCellFactory(TextFieldTableCell.forTableColumn(new DoublePriceConverter()));
         oneCostCol.setOnEditCommit(o -> {
             o.getRowValue().setOneCost(o.getNewValue());
             recalcSumCost();
-//            DBHelper.changeMaterial(o.getRowValue());
         });
 
         totalCostCol.setCellValueFactory(new PropertyValueFactory<>("totalCost"));

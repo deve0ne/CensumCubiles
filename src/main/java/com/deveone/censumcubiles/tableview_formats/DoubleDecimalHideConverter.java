@@ -16,7 +16,8 @@ public class DoubleDecimalHideConverter extends DoubleStringConverter {
         if (value.length() < 1)
             return null;
 
-        value = value.replace(',', '.');
+        value = value.replaceAll(",", ".");
+        value = value.replaceAll("[^\\d\\s.]+|\\.(?!\\d)",""); //Убирает всё кроме цифр и точки
 
         return Double.valueOf(value);
     }
