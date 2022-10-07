@@ -1,4 +1,4 @@
-package com.deveone.censumcubiles;
+package com.deveone.censumcubiles.controllers;
 
 import com.deveone.censumcubiles.database.DBHelper;
 import com.deveone.censumcubiles.material.Material;
@@ -6,8 +6,10 @@ import com.deveone.censumcubiles.material.MaterialCategory;
 import com.deveone.censumcubiles.material_arrival_dialog.MaterialArrivalDialog;
 import com.deveone.censumcubiles.tableview_formats.DoubleDecimalHideConverter;
 import com.deveone.censumcubiles.tableview_formats.DoublePriceConverter;
-import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
@@ -15,7 +17,7 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import java.io.IOException;
 import java.util.stream.Stream;
 
-public class CensumCubilesController {
+public class MaterialTabController {
     public TableView<Material> materialsTable;
     public TableColumn<Material, Integer> materialIndex;
     public TableColumn<Material, MaterialCategory> materialCategory;
@@ -24,6 +26,8 @@ public class CensumCubilesController {
     public TableColumn<Material, Double> materialOneCost;
     public TableColumn<Material, Double> materialTotalCost;
     public TextField materialSearch;
+    public Button delRowButton;
+    public Button addRowButton;
 
     public void initialize() {
         materialsTable.setEditable(true);

@@ -33,19 +33,14 @@
 -->
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TreeTableColumn?>
 <?import javafx.scene.control.TreeTableView?>
 <?import javafx.scene.layout.BorderPane?>
@@ -55,7 +50,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="768.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.deveone.censumcubiles.CensumCubilesController">
+<VBox prefHeight="768.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.deveone.censumcubiles.controllers.MainController">
     <MenuBar useSystemMenuBar="true" VBox.vgrow="NEVER">
         <Menu mnemonicParsing="false" text="File">
             <MenuItem mnemonicParsing="false" text="New" />
@@ -113,82 +108,14 @@
             </content>
         </Tab>
         <Tab text="Материалы">
-            <VBox>
-                <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
-                    <center>
-                        <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER">
-                            <content>
-                                <TableView fx:id="materialsTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity">
-                                    <columns>
-                                        <TableColumn fx:id="materialIndex" prefWidth="36.0" text="ID" />
-                                        <TableColumn fx:id="materialCategory" prefWidth="116.0" text="Категория" />
-                                        <TableColumn fx:id="materialName" prefWidth="98.0" text="Название" />
-                                        <TableColumn fx:id="materialAmount" prefWidth="96.0" text="Кол-во" />
-                                        <TableColumn fx:id="materialOneCost" prefWidth="118.0" text="Стоимость за ед." />
-                                        <TableColumn fx:id="materialTotalCost" prefWidth="131.0" text="Стоимость общая" />
-                                    </columns>
-                                </TableView>
-                            </content>
-                        </ScrollPane>
-                    </center>
-                    <top>
-                        <HBox maxWidth="1.7976931348623157E308">
-                            <TextField fx:id="materialSearch" maxWidth="1.7976931348623157E308" promptText="Поиск по названию" HBox.hgrow="ALWAYS">
-                                <HBox.margin>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                </HBox.margin>
-                            </TextField>
-                            <Separator orientation="VERTICAL">
-                                <HBox.margin>
-                                    <Insets />
-                                </HBox.margin>
-                            </Separator>
-                            <HBox alignment="CENTER" HBox.hgrow="SOMETIMES">
-                                <HBox.margin>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                </HBox.margin>
-                                <Button fx:id="arrivalButton" alignment="CENTER" mnemonicParsing="false" onMousePressed="#onArrivalPressed" prefHeight="25.0" prefWidth="157.0" text="Приход" HBox.hgrow="SOMETIMES">
-                                    <HBox.margin>
-                                        <Insets />
-                                    </HBox.margin>
-                                </Button>
-                            </HBox>
-                            <Separator orientation="VERTICAL">
-                                <HBox.margin>
-                                    <Insets />
-                                </HBox.margin>
-                            </Separator>
-                            <HBox alignment="CENTER" layoutX="1052.0" layoutY="15.0">
-                                <HBox.margin>
-                                    <Insets left="5.0" right="5.0" />
-                                </HBox.margin>
-                                <Button fx:id="addRowButton" alignment="CENTER" mnemonicParsing="false" onMousePressed="#onAddRowPressed" text="+ Добавить строку">
-                                    <HBox.margin>
-                                        <Insets right="5.0" />
-                                    </HBox.margin>
-                                </Button>
-                                <Button fx:id="delRowButton" alignment="CENTER" mnemonicParsing="false" onMousePressed="#onDelRowPressed" text="- Удалить строку" />
-                            </HBox>
-                        </HBox>
-                    </top>
-                </BorderPane>
-            </VBox>
+         <content>
+            <fx:include source="material-tab.fxml" />
+         </content>
         </Tab>
         <Tab text="Модели диванов">
-            <VBox>
-                <ScrollPane>
-                    <content>
-                        <TreeTableView prefHeight="682.0" prefWidth="902.0">
-                            <columns>
-                                <TreeTableColumn fx:id="nameRow" prefWidth="277.0" text="Название" />
-                                <TreeTableColumn fx:id="amountRow" prefWidth="94.0" text="Количество" />
-                                <TreeTableColumn fx:id="priceRow" minWidth="0.0" prefWidth="94.0" text="Стоимость" />
-                                <TreeTableColumn fx:id="plusButtonRow" minWidth="0.0" prefWidth="94.0" sortable="false" />
-                            </columns>
-                        </TreeTableView>
-                    </content>
-                </ScrollPane>
-            </VBox>
+         <content>
+            <fx:include source="models-tab.fxml" />
+         </content>
         </Tab>
     </TabPane>
     <HBox id="HBox" alignment="CENTER_LEFT" spacing="5.0" VBox.vgrow="NEVER">

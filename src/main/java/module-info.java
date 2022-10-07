@@ -16,4 +16,6 @@ module com.deveone.censumcubiles {
     opens com.deveone.censumcubiles.material to javafx.fxml;
     exports com.deveone.censumcubiles.material_arrival_dialog;
     opens com.deveone.censumcubiles.material_arrival_dialog to javafx.fxml;
+    exports com.deveone.censumcubiles.controllers;
+    opens com.deveone.censumcubiles.controllers to javafx.fxml;
 }
