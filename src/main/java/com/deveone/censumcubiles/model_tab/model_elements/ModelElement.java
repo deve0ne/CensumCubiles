@@ -13,10 +13,6 @@ public class ModelElement {
         return name.get();
     }
 
-    public SimpleStringProperty nameProperty() {
-        return name;
-    }
-
     public void setName(String name) {
         this.name.set(name);
     }
