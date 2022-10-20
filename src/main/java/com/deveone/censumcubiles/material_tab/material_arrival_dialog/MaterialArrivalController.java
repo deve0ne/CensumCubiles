@@ -1,7 +1,7 @@
-package com.deveone.censumcubiles.materialTab.material_arrival_dialog;
+package com.deveone.censumcubiles.material_tab.material_arrival_dialog;
 
 import com.deveone.censumcubiles.database.DBHelper;
-import com.deveone.censumcubiles.materialTab.material.Material;
+import com.deveone.censumcubiles.material_tab.material.Material;
 import com.deveone.censumcubiles.tableview_formats.DoubleDecimalHideConverter;
 import com.deveone.censumcubiles.tableview_formats.DoublePriceConverter;
 import javafx.scene.control.Button;
@@ -35,7 +35,7 @@ public class MaterialArrivalController {
 
     public void initialize() {
         initButtons();
-        initTableCells();
+        initTableColumns();
 
         recalcSumCost();
     }
@@ -81,7 +81,7 @@ public class MaterialArrivalController {
         });
     }
 
-    private void initTableCells() {
+    private void initTableColumns() {
         table.setEditable(true);
 
         nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -91,7 +91,9 @@ public class MaterialArrivalController {
         amountCol.setCellValueFactory(new PropertyValueFactory<>("amount"));
         amountCol.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleDecimalHideConverter()));
         amountCol.setOnEditCommit(o -> {
-            o.getRowValue().setAmount( o.getNewValue());
+            o.getRowValue().setAmount(o.getNewValue());
+            table.refresh();
+
             recalcSumCost();
         });
 
@@ -99,6 +101,8 @@ public class MaterialArrivalController {
         oneCostCol.setCellFactory(TextFieldTableCell.forTableColumn(new DoublePriceConverter()));
         oneCostCol.setOnEditCommit(o -> {
             o.getRowValue().setOneCost(o.getNewValue());
+            table.refresh();
+
             recalcSumCost();
         });
 
@@ -106,15 +110,18 @@ public class MaterialArrivalController {
         totalCostCol.setCellFactory(TextFieldTableCell.forTableColumn(new DoublePriceConverter()));
         totalCostCol.setOnEditCommit(o -> {
             o.getRowValue().setTotalCost(o.getNewValue());
+            table.refresh();
+
             recalcSumCost();
         });
     }
 
+    //FIXME Текстовое поле sumCost не отображается, вероятно косяк в дизайнере интерфейсов
     private void recalcSumCost() {
         double sum = 0;
         for (Material mat : arrivedMats)
             sum += mat.getTotalCost();
 
-        sumField.textProperty().set(new DoublePriceConverter().toString(sum));
+        sumField.setText(new DoublePriceConverter().toString(sum));
     }
 }

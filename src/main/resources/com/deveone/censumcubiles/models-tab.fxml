@@ -5,7 +5,7 @@
 <?import javafx.scene.control.TreeTableView?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.deveone.censumcubiles.modelTab.ModelTabController">
+<VBox xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.deveone.censumcubiles.model_tab.ModelTabController">
    <children>
       <ScrollPane>
          <content>

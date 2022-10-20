@@ -1,7 +1,7 @@
 package com.deveone.censumcubiles.database;
 
-import com.deveone.censumcubiles.materialTab.material.Material;
-import com.deveone.censumcubiles.materialTab.material.MaterialCategory;
+import com.deveone.censumcubiles.material_tab.material.Material;
+import com.deveone.censumcubiles.material_tab.material.MaterialCategory;
 
 import java.sql.*;
 

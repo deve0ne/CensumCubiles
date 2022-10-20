@@ -13,7 +13,7 @@
 
 <VBox alignment="TOP_CENTER" minWidth="450.0" spacing="10.0" xmlns="http://javafx.com/javafx/18"
       xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.deveone.censumcubiles.materialTab.material_arrival_dialog.MaterialArrivalController">
+      fx:controller="com.deveone.censumcubiles.material_tab.material_arrival_dialog.MaterialArrivalController">
    <VBox maxHeight="1.7976931348623157E308" VBox.vgrow="ALWAYS">
       <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308"
                   maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">

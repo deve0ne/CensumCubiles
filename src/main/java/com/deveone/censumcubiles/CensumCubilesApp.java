@@ -12,8 +12,10 @@ public class CensumCubilesApp extends Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("main-layout.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        stage.setTitle("CensumCubiles");
+
         stage.setScene(scene);
+        stage.setTitle("CensumCubiles");
+
         stage.show();
     }
 

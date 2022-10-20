@@ -1,9 +1,9 @@
-package com.deveone.censumcubiles.materialTab;
+package com.deveone.censumcubiles.material_tab;
 
 import com.deveone.censumcubiles.database.DBHelper;
-import com.deveone.censumcubiles.materialTab.material.Material;
-import com.deveone.censumcubiles.materialTab.material.MaterialCategory;
-import com.deveone.censumcubiles.materialTab.material_arrival_dialog.MaterialArrivalDialog;
+import com.deveone.censumcubiles.material_tab.material.Material;
+import com.deveone.censumcubiles.material_tab.material.MaterialCategory;
+import com.deveone.censumcubiles.material_tab.material_arrival_dialog.MaterialArrivalDialog;
 import com.deveone.censumcubiles.tableview_formats.DoubleDecimalHideConverter;
 import com.deveone.censumcubiles.tableview_formats.DoublePriceConverter;
 import javafx.scene.control.Button;
@@ -34,6 +34,14 @@ public class MaterialTabController {
         materialsTable.getSortOrder().add(materialCategory);
         materialsTable.getSortOrder().add(materialName);
 
+        initColumns();
+
+        loadMatsToTable();
+
+        initSearch();
+    }
+
+    private void initColumns() {
         materialIndex.setEditable(false);
         materialIndex.setCellValueFactory(new PropertyValueFactory<>("id"));
         materialIndex.setVisible(false);
@@ -56,8 +64,9 @@ public class MaterialTabController {
         materialName.setOnEditCommit(o -> {
             Material newMat = o.getRowValue();
             String oldName = newMat.getName();
-            newMat.setName(o.getNewValue());
 
+            newMat.setName(o.getNewValue());
+            materialsTable.refresh(); //Вероятно не требуется
 
             DBHelper.changeMaterial(oldName, o.getRowValue());
             materialsTable.sort();
@@ -67,7 +76,10 @@ public class MaterialTabController {
         materialAmount.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleDecimalHideConverter()));
         materialAmount.setOnEditCommit(o -> {
             Material newMat = o.getRowValue();
+
             newMat.setAmount(o.getNewValue());
+            materialsTable.refresh(); //Вероятно не требуется
+
             DBHelper.changeMaterial(newMat.getName(), newMat);
         });
 
@@ -75,17 +87,21 @@ public class MaterialTabController {
         materialOneCost.setCellFactory(TextFieldTableCell.forTableColumn(new DoublePriceConverter()));
         materialOneCost.setOnEditCommit(o -> {
             Material newMat = o.getRowValue();
+
             newMat.setOneCost(o.getNewValue());
+            materialsTable.refresh(); //Вероятно не требуется
+
             DBHelper.changeMaterial(newMat.getName(), newMat);
+
         });
 
         materialTotalCost.setCellValueFactory(new PropertyValueFactory<>("totalCost"));
         materialTotalCost.setEditable(false);
         materialTotalCost.setCellFactory(TextFieldTableCell.forTableColumn(new DoublePriceConverter()));
 //        materialTotalCost.setOnEditCommit(o -> o.getRowValue().setTotalCost(o.getNewValue()));
+    }
 
-        loadMatsToTable();
-
+    private void initSearch() {
         materialSearch.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.equals("") || oldValue.length() > newValue.length())
                 loadMatsToTable();
@@ -126,7 +142,7 @@ public class MaterialTabController {
         try {
             new MaterialArrivalDialog().setOnHidden(o -> loadMatsToTable());
         } catch (IOException e) {
-            System.err.println("Ошибка в создании диалога прихода");
+            System.err.println("Ошибка в создании диалога прихода: " + e);
         }
     }
 }

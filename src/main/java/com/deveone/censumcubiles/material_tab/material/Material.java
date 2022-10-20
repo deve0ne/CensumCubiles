@@ -1,4 +1,4 @@
-package com.deveone.censumcubiles.materialTab.material;
+package com.deveone.censumcubiles.material_tab.material;
 
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -25,6 +25,7 @@ public class Material {
     private void recalcTotalCost() {
         totalCost.set(amount.get() * oneCost.get());
     }
+
     private void recalcOneCost() {
         oneCost.set(totalCost.get() / amount.get());
     }
@@ -45,13 +46,10 @@ public class Material {
     public String getName() {
         return name.get();
     }
+
 //    public String getDecodedName() {
 //        return new String(name.get().getBytes(StandardCharsets.UTF_8));
 //    }
-
-    public SimpleStringProperty nameProperty() {
-        return name;
-    }
 
     public void setName(String name) {
         this.name.set(name);
@@ -59,10 +57,6 @@ public class Material {
 
     public double getAmount() {
         return amount.get();
-    }
-
-    public SimpleDoubleProperty amountProperty() {
-        return amount;
     }
 
     public void setAmount(double amount) {
@@ -88,16 +82,8 @@ public class Material {
     }
 
 
-    public SimpleDoubleProperty oneCostProperty() {
-        return oneCost;
-    }
-
     public double getTotalCost() {
         return totalCost.get();
-    }
-
-    public SimpleDoubleProperty totalCostProperty() {
-        return totalCost;
     }
 
     public void setTotalCost(double totalCost) {

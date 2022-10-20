@@ -17,14 +17,13 @@ public class DoubleDecimalHideConverter extends DoubleStringConverter {
             return null;
 
         value = value.replaceAll(",", ".");
-        value = value.replaceAll("[^\\d\\s.]+|\\.(?!\\d)",""); //Убирает всё кроме цифр и точки
+        value = value.replaceAll("[^\\d\\s.]+|\\.(?!\\d)", ""); //Убирает всё кроме цифр и точки
 
         return Double.valueOf(value);
     }
 
     @Override
     public String toString(Double value) {
-        // If the specified value is null, return a zero-length String
         if (value == null)
             return "";
 

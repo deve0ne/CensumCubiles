@@ -1,4 +1,4 @@
-package com.deveone.censumcubiles.materialTab.material_arrival_dialog;
+package com.deveone.censumcubiles.material_tab.material_arrival_dialog;
 
 import com.deveone.censumcubiles.CensumCubilesApp;
 import javafx.fxml.FXMLLoader;

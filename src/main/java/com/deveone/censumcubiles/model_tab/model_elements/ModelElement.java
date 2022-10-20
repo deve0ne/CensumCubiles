@@ -1,4 +1,4 @@
-package com.deveone.censumcubiles.modelTab.model_elements;
+package com.deveone.censumcubiles.model_tab.model_elements;
 
 import javafx.beans.property.SimpleStringProperty;
 

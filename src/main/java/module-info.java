@@ -12,14 +12,14 @@ module com.deveone.censumcubiles {
 
     opens com.deveone.censumcubiles to javafx.fxml;
     exports com.deveone.censumcubiles;
-    exports com.deveone.censumcubiles.materialTab.material;
-    opens com.deveone.censumcubiles.materialTab.material to javafx.fxml;
-    exports com.deveone.censumcubiles.materialTab.material_arrival_dialog;
-    opens com.deveone.censumcubiles.materialTab.material_arrival_dialog to javafx.fxml;
-    exports com.deveone.censumcubiles.modelTab.model_elements;
-    opens com.deveone.censumcubiles.modelTab.model_elements to javafx.fxml;
-    exports com.deveone.censumcubiles.modelTab;
-    opens com.deveone.censumcubiles.modelTab to javafx.fxml;
-    exports com.deveone.censumcubiles.materialTab;
-    opens com.deveone.censumcubiles.materialTab to javafx.fxml;
+    exports com.deveone.censumcubiles.material_tab.material;
+    opens com.deveone.censumcubiles.material_tab.material to javafx.fxml;
+    exports com.deveone.censumcubiles.material_tab.material_arrival_dialog;
+    opens com.deveone.censumcubiles.material_tab.material_arrival_dialog to javafx.fxml;
+    exports com.deveone.censumcubiles.model_tab.model_elements;
+    opens com.deveone.censumcubiles.model_tab.model_elements to javafx.fxml;
+    exports com.deveone.censumcubiles.model_tab;
+    opens com.deveone.censumcubiles.model_tab to javafx.fxml;
+    exports com.deveone.censumcubiles.material_tab;
+    opens com.deveone.censumcubiles.material_tab to javafx.fxml;
 }

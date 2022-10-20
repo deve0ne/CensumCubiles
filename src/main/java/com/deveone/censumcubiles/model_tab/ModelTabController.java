@@ -1,6 +1,6 @@
-package com.deveone.censumcubiles.modelTab;
+package com.deveone.censumcubiles.model_tab;
 
-import com.deveone.censumcubiles.modelTab.model_elements.ModelElement;
+import com.deveone.censumcubiles.model_tab.model_elements.ModelElement;
 import javafx.scene.control.Button;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;

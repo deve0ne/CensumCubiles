@@ -22,12 +22,6 @@ public class DoublePriceConverter extends DoubleDecimalHideConverter {
 
     @Override
     public String toString(Double value) {
-        // If the specified value is null, return a zero-length String
-        if (value == null)
-            return "";
-
-        DecimalFormat format = new DecimalFormat("0.##");
-
-        return format.format(value) + " \u20BD";
+        return super.toString(value) + " \u20BD";
     }
 }
