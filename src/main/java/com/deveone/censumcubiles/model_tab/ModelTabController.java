@@ -51,7 +51,7 @@ public class ModelTabController {
 //            return new SimpleObjectProperty<>(addChildren);
 //        });
 
-        modelsTable.setContextMenu(new ModelsContextMenu(modelsTable));
+        modelsTable.setContextMenu(new ModelContextMenu(modelsTable));
     }
 
     private void addSelectionListener() {

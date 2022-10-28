@@ -10,44 +10,61 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableView;
 
-public class ModelsContextMenu extends ContextMenu {
+public class ModelContextMenu extends ContextMenu {
     private final MenuItem addChildren = new MenuItem("Добавить потомка");
     private final MenuItem delSelf = new MenuItem("Удалить этот элемент");
+    private final TreeTableView<AbstractModelElement> ttv;
 
-    public ModelsContextMenu(TreeTableView<AbstractModelElement> ttv) {
+    public ModelContextMenu(TreeTableView<AbstractModelElement> ttv) {
         super();
 
-        initButtonListeners(ttv);
+        this.ttv = ttv;
+
+        initButtonListeners();
+        initMenuListeners();
 
         getItems().addAll(addChildren, delSelf);
     }
 
-    private void initButtonListeners(TreeTableView<AbstractModelElement> ttv) {
+    private void initMenuListeners() {
+        this.setOnShowing(o -> {
+            TreeItem<AbstractModelElement> selected = getSelectedItem();
+
+            addChildren.setVisible(!(selected.getValue() instanceof MaterialModelElement));
+        });
+    }
+
+    private void initButtonListeners() {
         addChildren.setOnAction(o -> {
-            TreeItem<AbstractModelElement> selected = ttv.getSelectionModel().getSelectedItem();
+            TreeItem<AbstractModelElement> selected = getSelectedItem();
 
-            if (selected == null)
-                selected = ttv.getRoot();
-
-            if (!selected.isLeaf())
+            // TODO: 28.10.2022 Не самый лучший код, надо покумекать над улучшением
+            if (selected.getValue() == null) {
                 selected.getChildren().add(new TreeItem<>(new ModelElement("Новая модель")));
-            else if (selected.getValue() instanceof ModelElement)
+
+            } else if (selected.getValue() instanceof ModelElement)
                 selected.getChildren().add(new TreeItem<>(new ModelCategoryElement(MaterialCategory.NO_CATEGORY)));
+
             else if (selected.getValue() instanceof ModelCategoryElement)
                 selected.getChildren().add(new TreeItem<>(new MaterialModelElement("Новый материал")));
         });
 
         delSelf.setOnAction(o -> {
-            TreeItem<AbstractModelElement> selected = ttv.getSelectionModel().getSelectedItem();
+            TreeItem<AbstractModelElement> selected = getSelectedItem();
 
-            if (selected == null)
+            if (selected.equals(ttv.getRoot()))
                 return;
 
             selected.getParent().getChildren().remove(selected);
-
-            //Чтобы мы случайно не удалили корневой элемент
-            if (!selected.isLeaf())
-                ttv.getSelectionModel().clearSelection();
         });
+    }
+
+    private TreeItem<AbstractModelElement> getSelectedItem() {
+        TreeItem<AbstractModelElement> selected = ttv.getSelectionModel().getSelectedItem();
+
+        if (selected == null)
+            selected = ttv.getRoot();
+
+        return selected;
     }
 }
