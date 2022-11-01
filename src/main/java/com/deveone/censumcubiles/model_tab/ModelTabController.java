@@ -1,10 +1,16 @@
 package com.deveone.censumcubiles.model_tab;
 
 import com.deveone.censumcubiles.model_tab.model_elements.AbstractModelElement;
+import com.deveone.censumcubiles.model_tab.model_elements.MaterialModelElement;
 import com.deveone.censumcubiles.model_tab.model_elements.ModelElement;
+import com.deveone.censumcubiles.tableview_formats.DoubleDecimalHideConverter;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.control.cell.TextFieldTreeTableCell;
 import javafx.scene.input.MouseEvent;
 
@@ -23,22 +29,43 @@ public class ModelTabController {
 
         plusButtonRow.setVisible(false);
 
-        modelsTable.getRoot().getChildren().add(new TreeItem<>(new ModelElement("Ева")));
-
         initTableColumns();
 
-       addSelectionListener();
+        addSelectionListener();
     }
 
     private void initTableColumns() {
+        nameRow.setCellFactory(TextFieldTreeTableCell.forTreeTableColumn());
+
         nameRow.setCellValueFactory(param -> {
-            if (param.getValue().getValue() == null)
+            AbstractModelElement modelElement = param.getValue().getValue();
+
+            if (modelElement == null)
                 return null;
 
-            return new SimpleStringProperty(param.getValue().getValue().getName());
+            return new SimpleStringProperty(modelElement.getName());
         });
 
-        nameRow.setCellFactory(TextFieldTreeTableCell.forTreeTableColumn());
+
+        amountRow.setCellFactory(TextFieldTreeTableCell.forTreeTableColumn(new DoubleDecimalHideConverter()));
+
+        priceRow.setCellFactory(TextFieldTreeTableCell.forTreeTableColumn(new DoubleDecimalHideConverter()));
+
+//        amountRow.setCellValueFactory(param -> {
+//            return new SimpleDoubleProperty();
+//        });
+
+
+
+//        amountRow.setCellValueFactory(param -> {
+//            AbstractModelElement modelElement = param.getValue().getValue();
+//
+//            if (modelElement instanceof MaterialModelElement) {
+//                double amount = ((MaterialModelElement) modelElement).getAmount();
+//                return
+//            } else
+//                return null;
+//        });
 
 
 //        plusButtonRow.setCellValueFactory(o -> {
