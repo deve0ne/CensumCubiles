@@ -1,8 +1,8 @@
 package com.deveone.censumcubiles.material_tab;
 
 import com.deveone.censumcubiles.database.DBHelper;
-import com.deveone.censumcubiles.material_tab.material.Material;
-import com.deveone.censumcubiles.material_tab.material.MaterialCategory;
+import com.deveone.censumcubiles.material.Material;
+import com.deveone.censumcubiles.material.MaterialCategory;
 import com.deveone.censumcubiles.material_tab.material_arrival_dialog.MaterialArrivalDialog;
 import com.deveone.censumcubiles.tableview_formats.DoubleDecimalHideConverter;
 import com.deveone.censumcubiles.tableview_formats.DoublePriceConverter;

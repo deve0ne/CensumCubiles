@@ -1,25 +1,20 @@
 package com.deveone.censumcubiles.model_tab;
 
-import com.deveone.censumcubiles.model_tab.model_elements.AbstractModelElement;
 import com.deveone.censumcubiles.model_tab.model_elements.MaterialModelElement;
-import com.deveone.censumcubiles.model_tab.model_elements.ModelElement;
+import com.deveone.censumcubiles.model_tab.model_elements.TTVElement;
 import com.deveone.censumcubiles.tableview_formats.DoubleDecimalHideConverter;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.control.cell.TextFieldTreeTableCell;
 import javafx.scene.input.MouseEvent;
 
 public class ModelTabController {
-    public TreeTableColumn<AbstractModelElement, String> nameRow;
-    public TreeTableColumn<AbstractModelElement, Double> amountRow;
-    public TreeTableColumn<AbstractModelElement, Double> priceRow;
-    public TreeTableColumn<AbstractModelElement, Button> plusButtonRow;
-    public TreeTableView<AbstractModelElement> modelsTable;
+    public TreeTableColumn<MaterialModelElement, String> nameRow;
+    public TreeTableColumn<MaterialModelElement, Double> amountRow;
+    public TreeTableColumn<MaterialModelElement, Double> priceRow;
+    public TreeTableColumn<MaterialModelElement, Button> plusButtonRow;
+    public TreeTableView<TTVElement> modelsTable;
 
     public void initialize() {
         modelsTable.setEditable(true);
@@ -38,7 +33,7 @@ public class ModelTabController {
         nameRow.setCellFactory(TextFieldTreeTableCell.forTreeTableColumn());
 
         nameRow.setCellValueFactory(param -> {
-            AbstractModelElement modelElement = param.getValue().getValue();
+            TTVElement modelElement = param.getValue().getValue();
 
             if (modelElement == null)
                 return null;

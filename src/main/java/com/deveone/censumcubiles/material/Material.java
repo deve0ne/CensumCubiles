@@ -1,9 +1,9 @@
-package com.deveone.censumcubiles.material_tab.material;
+package com.deveone.censumcubiles.material;
 
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 
-public class Material {
+public class Material extends AbstractMaterial {
     private MaterialCategory category;
     private final SimpleStringProperty name = new SimpleStringProperty("");
     private final SimpleDoubleProperty amount = new SimpleDoubleProperty(0);
@@ -12,6 +12,7 @@ public class Material {
 
     public Material() {
         this.category = MaterialCategory.NO_CATEGORY;
+        name.set("Новый материал");
     }
 
     public Material(String name, MaterialCategory category, double amount, double oneCost) {
@@ -61,6 +62,7 @@ public class Material {
 
     public void setAmount(double amount) {
         this.amount.set(amount);
+
         if (oneCost.get() > 0)
             recalcTotalCost();
         else if (totalCost.get() > 0)
@@ -77,10 +79,10 @@ public class Material {
 
     public void setOneCost(double oneCost) {
         this.oneCost.set(oneCost);
+
         if (amount.get() > 0)
             recalcTotalCost();
     }
-
 
     public double getTotalCost() {
         return totalCost.get();
@@ -88,6 +90,7 @@ public class Material {
 
     public void setTotalCost(double totalCost) {
         this.totalCost.set(totalCost);
+
         if (amount.get() > 0)
             recalcOneCost();
     }

@@ -1,7 +1,7 @@
 package com.deveone.censumcubiles.material_tab.material_arrival_dialog;
 
 import com.deveone.censumcubiles.database.DBHelper;
-import com.deveone.censumcubiles.material_tab.material.Material;
+import com.deveone.censumcubiles.material.Material;
 import com.deveone.censumcubiles.tableview_formats.DoubleDecimalHideConverter;
 import com.deveone.censumcubiles.tableview_formats.DoublePriceConverter;
 import javafx.scene.control.Button;
