@@ -2,7 +2,7 @@ package com.deveone.censumcubiles.model_tab.model_elements;
 
 import com.deveone.censumcubiles.material.MaterialCategory;
 
-public class CategoryModelElement implements TTVElement {
+public class CategoryModelElement implements ModelTTVElement {
     protected MaterialCategory category;
 
     public CategoryModelElement() {
@@ -16,5 +16,10 @@ public class CategoryModelElement implements TTVElement {
     @Override
     public String getName() {
         return category.getEncodedRuName();
+    }
+
+    @Override
+    public void setName(String newName) {
+
     }
 }

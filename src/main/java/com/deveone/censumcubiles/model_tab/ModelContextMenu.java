@@ -1,10 +1,10 @@
 package com.deveone.censumcubiles.model_tab;
 
-import com.deveone.censumcubiles.material.MaterialCategory;
 import com.deveone.censumcubiles.model_tab.model_elements.MaterialModelElement;
 import com.deveone.censumcubiles.model_tab.model_elements.CategoryModelElement;
 import com.deveone.censumcubiles.model_tab.model_elements.AssemblyModelElement;
-import com.deveone.censumcubiles.model_tab.model_elements.TTVElement;
+import com.deveone.censumcubiles.model_tab.model_elements.ModelTTVElement;
+import com.deveone.censumcubiles.model_tab.model_ttv.ModelTreeItem;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TreeItem;
@@ -13,9 +13,9 @@ import javafx.scene.control.TreeTableView;
 public class ModelContextMenu extends ContextMenu {
     private final MenuItem addChildren = new MenuItem("Добавить потомка");
     private final MenuItem delSelf = new MenuItem("Удалить этот элемент");
-    private final TreeTableView<TTVElement> ttv;
+    private final TreeTableView<ModelTTVElement> ttv;
 
-    public ModelContextMenu(TreeTableView<TTVElement> ttv) {
+    public ModelContextMenu(TreeTableView<ModelTTVElement> ttv) {
         super();
 
         this.ttv = ttv;
@@ -28,7 +28,7 @@ public class ModelContextMenu extends ContextMenu {
 
     private void initMenuListeners() {
         this.setOnShowing(o -> {
-            TreeItem<TTVElement> selected = getSelectedItem();
+            TreeItem<ModelTTVElement> selected = getSelectedItem();
 
             addChildren.setVisible(!(selected.getValue() instanceof MaterialModelElement));
         });
@@ -36,21 +36,21 @@ public class ModelContextMenu extends ContextMenu {
 
     private void initButtonListeners() {
         addChildren.setOnAction(o -> {
-            TreeItem<TTVElement> selected = getSelectedItem();
+            TreeItem<ModelTTVElement> selected = getSelectedItem();
 
             // TODO: 28.10.2022 Не самый лучший код, надо покумекать над улучшением
             if (selected.getValue() == null) {
-                selected.getChildren().add(new TreeItem<>(new AssemblyModelElement()));
+                selected.getChildren().add(new ModelTreeItem(new AssemblyModelElement()));
 
             } else if (selected.getValue() instanceof AssemblyModelElement)
-                selected.getChildren().add(new TreeItem<>(new CategoryModelElement()));
+                selected.getChildren().add(new ModelTreeItem(new CategoryModelElement()));
 
             else if (selected.getValue() instanceof CategoryModelElement)
-                selected.getChildren().add(new TreeItem<>(new MaterialModelElement()));
+                selected.getChildren().add(new ModelTreeItem(new MaterialModelElement()));
         });
 
         delSelf.setOnAction(o -> {
-            TreeItem<TTVElement> selected = getSelectedItem();
+            TreeItem<ModelTTVElement> selected = getSelectedItem();
 
             if (selected.equals(ttv.getRoot()))
                 return;
@@ -59,8 +59,8 @@ public class ModelContextMenu extends ContextMenu {
         });
     }
 
-    private TreeItem<TTVElement> getSelectedItem() {
-        TreeItem<TTVElement> selected = ttv.getSelectionModel().getSelectedItem();
+    private TreeItem<ModelTTVElement> getSelectedItem() {
+        TreeItem<ModelTTVElement> selected = ttv.getSelectionModel().getSelectedItem();
 
         if (selected == null)
             selected = ttv.getRoot();

@@ -9,11 +9,11 @@
    <children>
       <ScrollPane>
          <content>
-            <TreeTableView fx:id="modelsTable" prefHeight="682.0" prefWidth="902.0">
+            <TreeTableView fx:id="modelsTTV" prefHeight="682.0" prefWidth="902.0">
                <columns>
                   <TreeTableColumn fx:id="nameRow" prefWidth="277.0" text="Название" />
                   <TreeTableColumn fx:id="amountRow" prefWidth="94.0" text="Количество" />
-                  <TreeTableColumn fx:id="priceRow" minWidth="0.0" prefWidth="94.0" text="Стоимость" />
+                  <TreeTableColumn fx:id="costRow" minWidth="0.0" prefWidth="94.0" text="Стоимость" />
                   <TreeTableColumn fx:id="plusButtonRow" minWidth="0.0" prefWidth="94.0" sortable="false" />
                </columns>
             </TreeTableView>

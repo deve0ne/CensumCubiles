@@ -1,8 +1,9 @@
 package com.deveone.censumcubiles.model_tab;
 
 import com.deveone.censumcubiles.model_tab.model_elements.MaterialModelElement;
-import com.deveone.censumcubiles.model_tab.model_elements.TTVElement;
-import com.deveone.censumcubiles.tableview_formats.DecimalHideNumberConverter;
+import com.deveone.censumcubiles.model_tab.model_elements.ModelTTVElement;
+import com.deveone.censumcubiles.model_tab.model_ttv.ModelTreeItem;
+import com.deveone.censumcubiles.number_converters.DecimalHideNumberConverter;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.Node;
@@ -11,54 +12,25 @@ import javafx.scene.control.cell.TextFieldTreeTableCell;
 import javafx.scene.input.MouseEvent;
 
 public class ModelTabController {
-    public TreeTableColumn<TTVElement, String> nameRow;
-    public TreeTableColumn<TTVElement, Number> amountRow;
-    public TreeTableColumn<TTVElement, Number> priceRow;
-    public TreeTableColumn<TTVElement, Button> plusButtonRow;
-    public TreeTableView<TTVElement> modelsTable;
+    public TreeTableColumn<ModelTTVElement, String> nameRow;
+    public TreeTableColumn<ModelTTVElement, Number> amountRow;
+    public TreeTableColumn<ModelTTVElement, Number> costRow;
+    public TreeTableColumn<ModelTTVElement, Button> plusButtonRow;
+    public TreeTableView<ModelTTVElement> modelsTTV;
 
     public void initialize() {
-        modelsTable.setEditable(true);
+        modelsTTV.setEditable(true);
 
-        modelsTable.setRoot(new TreeItem<>());
-        modelsTable.setShowRoot(false);
+        modelsTTV.setRoot(new TreeItem<>());
+        modelsTTV.setShowRoot(false);
 
         plusButtonRow.setVisible(false);
 
         initTableColumns();
 
         addSelectionListener();
+        modelsTTV.setContextMenu(new ModelContextMenu(modelsTTV));
     }
-
-    private void initTableColumns() {
-        nameRow.setCellFactory(TextFieldTreeTableCell.forTreeTableColumn());
-
-        nameRow.setCellValueFactory(param -> {
-            TTVElement modelElement = param.getValue().getValue();
-
-            if (modelElement == null)
-                return null;
-
-            return new SimpleStringProperty(modelElement.getName());
-        });
-
-
-        amountRow.setCellFactory(TextFieldTreeTableCell.forTreeTableColumn(new DecimalHideNumberConverter()));
-
-        amountRow.setCellValueFactory(param -> {
-            TTVElement modelElement = param.getValue().getValue();
-
-            if (modelElement == null)
-                return null;
-
-            if (modelElement instanceof MaterialModelElement) {
-                double amount = ((MaterialModelElement) modelElement).getAmount();
-                return new SimpleDoubleProperty(amount);
-            } else
-                return null;
-        });
-
-        priceRow.setCellFactory(TextFieldTreeTableCell.forTreeTableColumn(new DecimalHideNumberConverter()));
 
 //        amountRow.setCellValueFactory(param -> {
 //            return new SimpleDoubleProperty();
@@ -86,11 +58,82 @@ public class ModelTabController {
 //            return new SimpleObjectProperty<>(addChildren);
 //        });
 
-        modelsTable.setContextMenu(new ModelContextMenu(modelsTable));
+
+
+    private void initTableColumns() {
+        nameRow.setCellFactory(TextFieldTreeTableCell.forTreeTableColumn());
+
+        nameRow.setCellValueFactory(param -> {
+            ModelTTVElement modelElement = param.getValue().getValue();
+
+            if (modelElement == null)
+                return null;
+
+            return new SimpleStringProperty(modelElement.getName());
+        });
+
+        nameRow.setOnEditCommit(event -> {
+
+        });
+
+
+        amountRow.setCellFactory(TextFieldTreeTableCell.forTreeTableColumn(new DecimalHideNumberConverter()));
+
+        amountRow.setCellValueFactory(param -> {
+            TreeItem<ModelTTVElement> treeItem = param.getValue();
+            ModelTTVElement modelElement = treeItem.getValue();
+
+            if (modelElement == null)
+                return null;
+
+            if (modelElement instanceof MaterialModelElement) {
+                double amount = ((MaterialModelElement) modelElement).getAmount();
+                return new SimpleDoubleProperty(amount);
+            } else
+                return null;
+        });
+
+        amountRow.setOnEditCommit(event -> {
+            if (!(event.getRowValue().getValue() instanceof MaterialModelElement modelElement))
+                return;
+
+            modelElement.setAmount(event.getNewValue().doubleValue());
+            modelsTTV.refresh();
+        });
+
+
+        costRow.setCellFactory(TextFieldTreeTableCell.forTreeTableColumn(new DecimalHideNumberConverter()));
+
+        costRow.setCellValueFactory(param -> {
+            //Очень забавная конструкция
+            if (!(param.getValue() instanceof ModelTreeItem treeItem))
+                return null;
+
+            ModelTTVElement modelElement = treeItem.getValue();
+
+            if (modelElement == null)
+                return null;
+
+            return new SimpleDoubleProperty(treeItem.getCost());
+        });
+
+        costRow.setEditable(false);
+//        costRow.setOnEditCommit(event -> {
+//            ModelTTVElement modelElement = event.getRowValue().getValue();
+//
+//            if (modelElement instanceof MaterialModelElement)
+//                ((MaterialModelElement) modelElement).setTotalCost(event.getNewValue().doubleValue());
+//
+//            modelsTTV.refresh();
+//        });
+    }
+
+    private boolean isModelTreeItem(TreeItem<ModelTTVElement> item) {
+        return item instanceof ModelTreeItem;
     }
 
     private void addSelectionListener() {
-        modelsTable.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
+        modelsTTV.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
             Node source = event.getPickResult().getIntersectedNode();
 
 
@@ -101,7 +144,7 @@ public class ModelTabController {
             // несуществующий столбец. Если столбец будет существовать, то источником будет он, и выполнятся остальные
             // строки кода. FIXME в общем-то */
             if (source instanceof TreeTableRow<?>) {
-                modelsTable.getSelectionModel().clearSelection();
+                modelsTTV.getSelectionModel().clearSelection();
                 return;
             }
 
@@ -112,7 +155,7 @@ public class ModelTabController {
 
             //Если мы тыкнули на пустое место или вообще не на строку, то очищаем выделение
             if (source == null || ((TreeTableRow<?>) source).isEmpty())
-                modelsTable.getSelectionModel().clearSelection();
+                modelsTTV.getSelectionModel().clearSelection();
         });
     }
 }

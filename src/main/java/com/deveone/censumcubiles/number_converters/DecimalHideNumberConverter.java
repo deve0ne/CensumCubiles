@@ -1,4 +1,4 @@
-package com.deveone.censumcubiles.tableview_formats;
+package com.deveone.censumcubiles.number_converters;
 
 import javafx.util.converter.NumberStringConverter;
 

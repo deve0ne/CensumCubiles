@@ -3,6 +3,8 @@ package com.deveone.censumcubiles.material;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 
+import java.nio.charset.StandardCharsets;
+
 public class Material extends AbstractMaterial {
     private MaterialCategory category;
     private final SimpleStringProperty name = new SimpleStringProperty("");
@@ -48,9 +50,9 @@ public class Material extends AbstractMaterial {
         return name.get();
     }
 
-//    public String getDecodedName() {
-//        return new String(name.get().getBytes(StandardCharsets.UTF_8));
-//    }
+    public String getDecodedName() {
+        return new String(name.get().getBytes(StandardCharsets.UTF_8));
+    }
 
     public void setName(String name) {
         this.name.set(name);
@@ -93,5 +95,18 @@ public class Material extends AbstractMaterial {
 
         if (amount.get() > 0)
             recalcOneCost();
+
+        System.err.println(this);
+    }
+
+    @Override
+    public String toString() {
+        return "Material{" +
+                "category=" + getCategory().getDecodedRuName() +
+                ", name=" + getDecodedName() +
+                ", amount=" + getAmount() +
+                ", oneCost=" + getOneCost() +
+                ", totalCost=" + getTotalCost() +
+                '}';
     }
 }
