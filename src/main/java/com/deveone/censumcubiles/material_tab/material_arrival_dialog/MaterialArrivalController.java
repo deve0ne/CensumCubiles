@@ -2,8 +2,8 @@ package com.deveone.censumcubiles.material_tab.material_arrival_dialog;
 
 import com.deveone.censumcubiles.database.DBHelper;
 import com.deveone.censumcubiles.material.Material;
-import com.deveone.censumcubiles.tableview_formats.DoubleDecimalHideConverter;
-import com.deveone.censumcubiles.tableview_formats.DoublePriceConverter;
+import com.deveone.censumcubiles.tableview_formats.DecimalHideNumberConverter;
+import com.deveone.censumcubiles.tableview_formats.PriceNumberConverter;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -19,9 +19,9 @@ public class MaterialArrivalController {
 
     public TableColumn<Material, String> categoryCol;
     public TableColumn<Material, String> nameCol;
-    public TableColumn<Material, Double> amountCol;
-    public TableColumn<Material, Double> oneCostCol;
-    public TableColumn<Material, Double> totalCostCol;
+    public TableColumn<Material, Number> amountCol;
+    public TableColumn<Material, Number> oneCostCol;
+    public TableColumn<Material, Number> totalCostCol;
 
     public Button addRowButton;
     public Button delRowButton;
@@ -89,27 +89,27 @@ public class MaterialArrivalController {
         nameCol.setOnEditCommit(o -> o.getRowValue().setName(o.getNewValue()));
 
         amountCol.setCellValueFactory(new PropertyValueFactory<>("amount"));
-        amountCol.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleDecimalHideConverter()));
+        amountCol.setCellFactory(TextFieldTableCell.forTableColumn(new DecimalHideNumberConverter()));
         amountCol.setOnEditCommit(o -> {
-            o.getRowValue().setAmount(o.getNewValue());
+            o.getRowValue().setAmount(o.getNewValue().doubleValue());
             table.refresh();
 
             recalcSumCost();
         });
 
         oneCostCol.setCellValueFactory(new PropertyValueFactory<>("oneCost"));
-        oneCostCol.setCellFactory(TextFieldTableCell.forTableColumn(new DoublePriceConverter()));
+        oneCostCol.setCellFactory(TextFieldTableCell.forTableColumn(new PriceNumberConverter()));
         oneCostCol.setOnEditCommit(o -> {
-            o.getRowValue().setOneCost(o.getNewValue());
+            o.getRowValue().setOneCost(o.getNewValue().doubleValue());
             table.refresh();
 
             recalcSumCost();
         });
 
         totalCostCol.setCellValueFactory(new PropertyValueFactory<>("totalCost"));
-        totalCostCol.setCellFactory(TextFieldTableCell.forTableColumn(new DoublePriceConverter()));
+        totalCostCol.setCellFactory(TextFieldTableCell.forTableColumn(new PriceNumberConverter()));
         totalCostCol.setOnEditCommit(o -> {
-            o.getRowValue().setTotalCost(o.getNewValue());
+            o.getRowValue().setTotalCost(o.getNewValue().doubleValue());
             table.refresh();
 
             recalcSumCost();
@@ -122,6 +122,6 @@ public class MaterialArrivalController {
         for (Material mat : arrivedMats)
             sum += mat.getTotalCost();
 
-        sumField.setText(new DoublePriceConverter().toString(sum));
+        sumField.setText(new PriceNumberConverter().toString(sum));
     }
 }

@@ -1,10 +1,6 @@
 package com.deveone.censumcubiles.tableview_formats;
 
-import javafx.util.converter.DoubleStringConverter;
-
-import java.text.DecimalFormat;
-
-public class DoublePriceConverter extends DoubleDecimalHideConverter {
+public class PriceNumberConverter extends DecimalHideNumberConverter {
     @Override
     public Double fromString(String value) {
         if (value == null)
@@ -21,7 +17,7 @@ public class DoublePriceConverter extends DoubleDecimalHideConverter {
     }
 
     @Override
-    public String toString(Double value) {
+    public String toString(Number value) {
         return super.toString(value) + " \u20BD";
     }
 }

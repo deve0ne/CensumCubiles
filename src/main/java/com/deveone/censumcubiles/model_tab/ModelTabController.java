@@ -2,7 +2,8 @@ package com.deveone.censumcubiles.model_tab;
 
 import com.deveone.censumcubiles.model_tab.model_elements.MaterialModelElement;
 import com.deveone.censumcubiles.model_tab.model_elements.TTVElement;
-import com.deveone.censumcubiles.tableview_formats.DoubleDecimalHideConverter;
+import com.deveone.censumcubiles.tableview_formats.DecimalHideNumberConverter;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -10,10 +11,10 @@ import javafx.scene.control.cell.TextFieldTreeTableCell;
 import javafx.scene.input.MouseEvent;
 
 public class ModelTabController {
-    public TreeTableColumn<MaterialModelElement, String> nameRow;
-    public TreeTableColumn<MaterialModelElement, Double> amountRow;
-    public TreeTableColumn<MaterialModelElement, Double> priceRow;
-    public TreeTableColumn<MaterialModelElement, Button> plusButtonRow;
+    public TreeTableColumn<TTVElement, String> nameRow;
+    public TreeTableColumn<TTVElement, Number> amountRow;
+    public TreeTableColumn<TTVElement, Number> priceRow;
+    public TreeTableColumn<TTVElement, Button> plusButtonRow;
     public TreeTableView<TTVElement> modelsTable;
 
     public void initialize() {
@@ -42,14 +43,26 @@ public class ModelTabController {
         });
 
 
-        amountRow.setCellFactory(TextFieldTreeTableCell.forTreeTableColumn(new DoubleDecimalHideConverter()));
+        amountRow.setCellFactory(TextFieldTreeTableCell.forTreeTableColumn(new DecimalHideNumberConverter()));
 
-        priceRow.setCellFactory(TextFieldTreeTableCell.forTreeTableColumn(new DoubleDecimalHideConverter()));
+        amountRow.setCellValueFactory(param -> {
+            TTVElement modelElement = param.getValue().getValue();
+
+            if (modelElement == null)
+                return null;
+
+            if (modelElement instanceof MaterialModelElement) {
+                double amount = ((MaterialModelElement) modelElement).getAmount();
+                return new SimpleDoubleProperty(amount);
+            } else
+                return null;
+        });
+
+        priceRow.setCellFactory(TextFieldTreeTableCell.forTreeTableColumn(new DecimalHideNumberConverter()));
 
 //        amountRow.setCellValueFactory(param -> {
 //            return new SimpleDoubleProperty();
 //        });
-
 
 
 //        amountRow.setCellValueFactory(param -> {

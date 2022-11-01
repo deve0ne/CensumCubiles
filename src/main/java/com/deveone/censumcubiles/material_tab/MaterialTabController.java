@@ -4,8 +4,8 @@ import com.deveone.censumcubiles.database.DBHelper;
 import com.deveone.censumcubiles.material.Material;
 import com.deveone.censumcubiles.material.MaterialCategory;
 import com.deveone.censumcubiles.material_tab.material_arrival_dialog.MaterialArrivalDialog;
-import com.deveone.censumcubiles.tableview_formats.DoubleDecimalHideConverter;
-import com.deveone.censumcubiles.tableview_formats.DoublePriceConverter;
+import com.deveone.censumcubiles.tableview_formats.DecimalHideNumberConverter;
+import com.deveone.censumcubiles.tableview_formats.PriceNumberConverter;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -22,9 +22,9 @@ public class MaterialTabController {
     public TableColumn<Material, Integer> materialIndex;
     public TableColumn<Material, MaterialCategory> materialCategory;
     public TableColumn<Material, String> materialName;
-    public TableColumn<Material, Double> materialAmount;
-    public TableColumn<Material, Double> materialOneCost;
-    public TableColumn<Material, Double> materialTotalCost;
+    public TableColumn<Material, Number> materialAmount;
+    public TableColumn<Material, Number> materialOneCost;
+    public TableColumn<Material, Number> materialTotalCost;
     public TextField materialSearch;
     public Button delRowButton;
     public Button addRowButton;
@@ -73,22 +73,22 @@ public class MaterialTabController {
         });
 
         materialAmount.setCellValueFactory(new PropertyValueFactory<>("amount"));
-        materialAmount.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleDecimalHideConverter()));
+        materialAmount.setCellFactory(TextFieldTableCell.forTableColumn(new DecimalHideNumberConverter()));
         materialAmount.setOnEditCommit(o -> {
             Material newMat = o.getRowValue();
 
-            newMat.setAmount(o.getNewValue());
+            newMat.setAmount(o.getNewValue().doubleValue());
             materialsTable.refresh(); //Вероятно не требуется
 
             DBHelper.changeMaterial(newMat.getName(), newMat);
         });
 
         materialOneCost.setCellValueFactory(new PropertyValueFactory<>("oneCost"));
-        materialOneCost.setCellFactory(TextFieldTableCell.forTableColumn(new DoublePriceConverter()));
+        materialOneCost.setCellFactory(TextFieldTableCell.forTableColumn(new PriceNumberConverter()));
         materialOneCost.setOnEditCommit(o -> {
             Material newMat = o.getRowValue();
 
-            newMat.setOneCost(o.getNewValue());
+            newMat.setOneCost(o.getNewValue().doubleValue());
             materialsTable.refresh(); //Вероятно не требуется
 
             DBHelper.changeMaterial(newMat.getName(), newMat);
@@ -97,7 +97,7 @@ public class MaterialTabController {
 
         materialTotalCost.setCellValueFactory(new PropertyValueFactory<>("totalCost"));
         materialTotalCost.setEditable(false);
-        materialTotalCost.setCellFactory(TextFieldTableCell.forTableColumn(new DoublePriceConverter()));
+        materialTotalCost.setCellFactory(TextFieldTableCell.forTableColumn(new PriceNumberConverter()));
 //        materialTotalCost.setOnEditCommit(o -> o.getRowValue().setTotalCost(o.getNewValue()));
     }
 

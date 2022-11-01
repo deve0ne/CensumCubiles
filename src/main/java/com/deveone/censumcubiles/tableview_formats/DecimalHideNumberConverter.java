@@ -1,10 +1,10 @@
 package com.deveone.censumcubiles.tableview_formats;
 
-import javafx.util.converter.DoubleStringConverter;
+import javafx.util.converter.NumberStringConverter;
 
 import java.text.DecimalFormat;
 
-public class DoubleDecimalHideConverter extends DoubleStringConverter {
+public class DecimalHideNumberConverter extends NumberStringConverter {
     @Override
     public Double fromString(String value) {
         // If the specified value is null or zero-length, return null
@@ -23,7 +23,7 @@ public class DoubleDecimalHideConverter extends DoubleStringConverter {
     }
 
     @Override
-    public String toString(Double value) {
+    public String toString(Number value) {
         if (value == null)
             return "";
 
