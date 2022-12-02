@@ -1,4 +1,4 @@
-package com.deveone.censumcubiles.model;
+package com.deveone.censumcubiles.model_tab.model;
 
 import com.deveone.censumcubiles.material.Material;
 import com.deveone.censumcubiles.material.MaterialCategory;

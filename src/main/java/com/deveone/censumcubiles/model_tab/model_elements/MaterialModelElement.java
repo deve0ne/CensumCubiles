@@ -4,6 +4,8 @@ import com.deveone.censumcubiles.material.Material;
 import com.deveone.censumcubiles.material.MaterialCategory;
 
 public class MaterialModelElement extends Material implements ModelTTVElement {
+//    private double amountInModel = 0;
+
     public MaterialModelElement() {
     }
 
@@ -14,4 +16,17 @@ public class MaterialModelElement extends Material implements ModelTTVElement {
     public MaterialModelElement(Material material) {
         super(material.getName(), material.getCategory(), material.getAmount(), material.getOneCost());
     }
+
+//    public double getAmountInModel() {
+//        return amountInModel;
+//    }
+//
+//    public void setAmountInModel(double amountInModel) {
+//        this.amountInModel = amountInModel;
+//    }
+
+//    @Override
+//    public double getTotalCost() {
+//        return getOneCost() * getAmountInModel();
+//    }
 }

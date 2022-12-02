@@ -2,7 +2,7 @@ package com.deveone.censumcubiles.database;
 
 import com.deveone.censumcubiles.material.Material;
 import com.deveone.censumcubiles.material.MaterialCategory;
-import com.deveone.censumcubiles.model.Model;
+import com.deveone.censumcubiles.model_tab.model.Model;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -33,7 +33,7 @@ public class ModelDBHelper extends DBHelper {
 
                 model.addMaterial(newMat);
 
-                //Я не уверен, нужно ли это вообще, но пока не до этого
+                //02.12.22 Я не уверен, нужно ли это вообще, но пока не до этого
                 models.remove(model);
                 models.add(model);
             }

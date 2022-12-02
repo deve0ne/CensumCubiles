@@ -1,11 +1,7 @@
 package com.deveone.censumcubiles.model_tab;
 
-import com.deveone.censumcubiles.database.DBHelper;
-import com.deveone.censumcubiles.database.MaterialDBHelper;
 import com.deveone.censumcubiles.database.ModelDBHelper;
-import com.deveone.censumcubiles.material.Material;
-import com.deveone.censumcubiles.model.Model;
-import com.deveone.censumcubiles.model_tab.model_elements.CategoryModelElement;
+import com.deveone.censumcubiles.model_tab.model.Model;
 import com.deveone.censumcubiles.model_tab.model_elements.MaterialModelElement;
 import com.deveone.censumcubiles.model_tab.model_elements.ModelTTVElement;
 import com.deveone.censumcubiles.model_tab.model_ttv.ModelTreeItem;
@@ -17,7 +13,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldTreeTableCell;
 import javafx.scene.input.MouseEvent;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ModelTabController {
@@ -130,15 +125,20 @@ public class ModelTabController {
 
         costRow.setCellValueFactory(param -> {
             //Очень забавная конструкция
-            if (!(param.getValue() instanceof ModelTreeItem treeItem))
+//            if (!(param.getValue() instanceof ModelTreeItem treeItem))
+//                return null;
+//
+//            ModelTTVElement modelElement = treeItem.getValue();
+//
+//            if (modelElement == null)
+//                return null;
+
+            if (!(param.getValue().getValue() instanceof MaterialModelElement))
                 return null;
 
-            ModelTTVElement modelElement = treeItem.getValue();
+            MaterialModelElement matElement = (MaterialModelElement) param.getValue().getValue();
 
-            if (modelElement == null)
-                return null;
-
-            return new SimpleDoubleProperty(treeItem.getCost());
+            return new SimpleDoubleProperty(matElement.getTotalCost());
         });
 
         costRow.setEditable(false);
@@ -185,11 +185,7 @@ public class ModelTabController {
 
     private void loadModelsToTable() {
         List<Model> list = ModelDBHelper.getAllModels();
-        list.forEach(o -> {
-            modelsTTV.getRoot().getChildren().add(o.getTTVRepresentation());
-        });
-//        modelsTTV.getRoot().getChildren().setAll(ModelDBHelper.getAllModels());
-//        getTreeTableViewRepresentation(ModelDBHelper.getAllModels());
+        list.forEach(o -> modelsTTV.getRoot().getChildren().add(o.getTTVRepresentation()));
     }
 
 
