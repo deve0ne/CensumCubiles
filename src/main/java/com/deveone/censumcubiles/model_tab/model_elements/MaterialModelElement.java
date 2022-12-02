@@ -10,4 +10,8 @@ public class MaterialModelElement extends Material implements ModelTTVElement {
     public MaterialModelElement(String name, MaterialCategory category, double amount, double oneCost) {
         super(name, category, amount, oneCost);
     }
+
+    public MaterialModelElement(Material material) {
+        super(material.getName(), material.getCategory(), material.getAmount(), material.getOneCost());
+    }
 }

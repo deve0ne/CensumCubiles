@@ -1,6 +1,6 @@
 package com.deveone.censumcubiles.material_tab.material_arrival_dialog;
 
-import com.deveone.censumcubiles.database.DBHelper;
+import com.deveone.censumcubiles.database.MaterialDBHelper;
 import com.deveone.censumcubiles.material.Material;
 import com.deveone.censumcubiles.number_converters.DecimalHideNumberConverter;
 import com.deveone.censumcubiles.number_converters.PriceNumberConverter;
@@ -60,13 +60,13 @@ public class MaterialArrivalController {
 
         applyButton.setOnMouseClicked(o -> {
             for (Material arrivedMat : arrivedMats) {
-                Material matInDB = DBHelper.getMaterialByName(arrivedMat.getName());
+                Material matInDB = MaterialDBHelper.getMaterialByName(arrivedMat.getName());
 
                 if (matInDB != null) {
                     matInDB.mergeMaterial(arrivedMat);
-                    DBHelper.changeMaterial(matInDB.getName(), matInDB);
+                    MaterialDBHelper.changeMaterial(matInDB.getName(), matInDB);
                 } else
-                    DBHelper.addMaterial(arrivedMat);
+                    MaterialDBHelper.addMaterial(arrivedMat);
             }
 
             Button source = (Button) o.getSource();

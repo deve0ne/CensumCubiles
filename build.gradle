@@ -1,7 +1,7 @@
 plugins {
     id 'java'
     id 'application'
-    id 'org.openjfx.javafxplugin' version '0.0.10'
+    id 'org.openjfx.javafxplugin' version '0.0.13'
     id 'org.beryx.jlink' version '2.24.1'
 }
 
@@ -19,13 +19,41 @@ ext {
 sourceCompatibility = '17'
 targetCompatibility = '17'
 
+ext.java9Args = [
+        // For various usages of TraversalEngine
+        "--add-exports=javafx.graphics/com.sun.javafx.scene=org.controlsfx.controls",
+        "--add-exports=javafx.graphics/com.sun.javafx.scene.traversal=org.controlsfx.controls",
+        // For various behaviors across controls
+        "--add-exports=javafx.controls/com.sun.javafx.scene.control.behavior=org.controlsfx.controls",
+        // For ReadOnlyUnbackedObservableList across files
+        "--add-exports=javafx.controls/com.sun.javafx.scene.control=org.controlsfx.controls",
+        // For InputMap used in behavior classes
+        "--add-exports=javafx.controls/com.sun.javafx.scene.control.inputmap=org.controlsfx.controls",
+        // For EventHandlerManager in AutoCompletionBinding
+        "--add-exports=javafx.base/com.sun.javafx.event=org.controlsfx.controls",
+        // For MappingChange, NonIterableChange across files
+        "--add-exports=javafx.base/com.sun.javafx.collections=org.controlsfx.controls",
+        // For VersionInfo in VersionChecker
+        "--add-exports=javafx.base/com.sun.javafx.runtime=org.controlsfx.controls",
+]
+
+applicationDefaultJvmArgs = ["--add-exports=javafx.graphics/com.sun.javafx.scene=org.controlsfx.controls\n" +
+                                     "--add-exports=javafx.graphics/com.sun.javafx.scene.traversal=org.controlsfx.controls"]
+
+ext.java9RuntimeArgs = [
+        // For accessing VirtualFlow field from the base class in GridViewSkin
+        "--add-opens=javafx.controls/javafx.scene.control.skin=org.controlsfx.controls",
+        // For accessing getChildren in ImplUtils
+        "--add-opens=javafx.graphics/javafx.scene=org.controlsfx.controls"
+]
+
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
 
 application {
     mainModule = 'com.deveone.censumcubiles'
-    mainClass = 'com.deveone.censumcubiles.HelloApplication'
+    mainClass = 'com.deveone.censumcubiles.CensumCublilesApp'
 }
 
 javafx {
@@ -36,7 +64,7 @@ javafx {
 dependencies {
     implementation 'mysql:mysql-connector-java:8.0.30'
 
-    implementation('org.controlsfx:controlsfx:11.1.1')
+    implementation('org.controlsfx:controlsfx:11.1.2')
     implementation('com.dlsc.formsfx:formsfx-core:11.5.0') {
         exclude(group: 'org.openjfx')
     }
@@ -67,7 +95,8 @@ dependencies {
 }
 
 test {
-    useJUnitPlatform()  }
+    useJUnitPlatform()
+}
 
 jlink {
     imageZip = project.file("${buildDir}/distributions/app-${javafx.platform.classifier}.zip")

@@ -1,6 +1,6 @@
 package com.deveone.censumcubiles.material_tab;
 
-import com.deveone.censumcubiles.database.DBHelper;
+import com.deveone.censumcubiles.database.MaterialDBHelper;
 import com.deveone.censumcubiles.material.Material;
 import com.deveone.censumcubiles.material.MaterialCategory;
 import com.deveone.censumcubiles.material_tab.material_arrival_dialog.MaterialArrivalDialog;
@@ -51,7 +51,7 @@ public class MaterialTabController {
         materialCategory.setOnEditCommit(o -> {
             Material newMat = o.getRowValue();
             newMat.setCategory(o.getNewValue());
-            DBHelper.changeMaterial(newMat.getName(), newMat); //Т.к. имя не меняется, можем передавать одно и то же
+            MaterialDBHelper.changeMaterial(newMat.getName(), newMat); //Т.к. имя не меняется, можем передавать одно и то же
             materialsTable.sort();
             materialsTable.scrollTo(newMat);
         });
@@ -68,7 +68,7 @@ public class MaterialTabController {
             newMat.setName(o.getNewValue());
             materialsTable.refresh(); //Вероятно не требуется
 
-            DBHelper.changeMaterial(oldName, o.getRowValue());
+            MaterialDBHelper.changeMaterial(oldName, o.getRowValue());
             materialsTable.sort();
         });
 
@@ -80,7 +80,7 @@ public class MaterialTabController {
             newMat.setAmount(o.getNewValue().doubleValue());
             materialsTable.refresh(); //Вероятно не требуется
 
-            DBHelper.changeMaterial(newMat.getName(), newMat);
+            MaterialDBHelper.changeMaterial(newMat.getName(), newMat);
         });
 
         materialOneCost.setCellValueFactory(new PropertyValueFactory<>("oneCost"));
@@ -91,7 +91,7 @@ public class MaterialTabController {
             newMat.setOneCost(o.getNewValue().doubleValue());
             materialsTable.refresh(); //Вероятно не требуется
 
-            DBHelper.changeMaterial(newMat.getName(), newMat);
+            MaterialDBHelper.changeMaterial(newMat.getName(), newMat);
 
         });
 
@@ -116,13 +116,13 @@ public class MaterialTabController {
     }
 
     private void loadMatsToTable() {
-        materialsTable.getItems().setAll(DBHelper.getAllMaterials());
+        materialsTable.getItems().setAll(MaterialDBHelper.getAllMaterials());
         materialsTable.sort();
     }
 
     public void onAddRowPressed() {
         Material newMat = new Material();
-        DBHelper.addMaterial(newMat);
+        MaterialDBHelper.addMaterial(newMat);
         materialsTable.getItems().add(newMat);
         materialsTable.sort();
         materialsTable.getSelectionModel().select(newMat);
@@ -135,7 +135,7 @@ public class MaterialTabController {
         if (selected == null) return;
 
         materialsTable.getItems().remove(selected);
-        DBHelper.removeMaterial(selected);
+        MaterialDBHelper.removeMaterial(selected);
     }
 
     public void onArrivalPressed() {

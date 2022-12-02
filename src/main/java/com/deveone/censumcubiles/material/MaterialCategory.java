@@ -41,6 +41,7 @@ public enum MaterialCategory {
         for (MaterialCategory v : values())
             if (v.getDecodedRuName().equalsIgnoreCase(decodedValue)) return v;
 
-        throw new IllegalArgumentException();
+        //FIXME Эта хрень крашит всю программу, надо фиксить
+        throw new IllegalArgumentException("No such catergory: " + value);
     }
 }

@@ -1,5 +1,11 @@
 package com.deveone.censumcubiles.model_tab;
 
+import com.deveone.censumcubiles.database.DBHelper;
+import com.deveone.censumcubiles.database.MaterialDBHelper;
+import com.deveone.censumcubiles.database.ModelDBHelper;
+import com.deveone.censumcubiles.material.Material;
+import com.deveone.censumcubiles.model.Model;
+import com.deveone.censumcubiles.model_tab.model_elements.CategoryModelElement;
 import com.deveone.censumcubiles.model_tab.model_elements.MaterialModelElement;
 import com.deveone.censumcubiles.model_tab.model_elements.ModelTTVElement;
 import com.deveone.censumcubiles.model_tab.model_ttv.ModelTreeItem;
@@ -10,6 +16,9 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldTreeTableCell;
 import javafx.scene.input.MouseEvent;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ModelTabController {
     public TreeTableColumn<ModelTTVElement, String> nameRow;
@@ -30,6 +39,11 @@ public class ModelTabController {
 
         addSelectionListener();
         modelsTTV.setContextMenu(new ModelContextMenu(modelsTTV));
+
+//        TextFields.bindAutoCompletion()
+//        TextFieldTreeTableCell
+
+        loadModelsToTable();
     }
 
 //        amountRow.setCellValueFactory(param -> {
@@ -59,9 +73,9 @@ public class ModelTabController {
 //        });
 
 
-
     private void initTableColumns() {
         nameRow.setCellFactory(TextFieldTreeTableCell.forTreeTableColumn());
+//        nameRow.setCellFactory(ttColumn -> new AutocompletionTextFieldTTV());
 
         nameRow.setCellValueFactory(param -> {
             ModelTTVElement modelElement = param.getValue().getValue();
@@ -72,9 +86,19 @@ public class ModelTabController {
             return new SimpleStringProperty(modelElement.getName());
         });
 
-        nameRow.setOnEditCommit(event -> {
+//        nameRow.setOnEditCommit(event -> {
+//            ModelTTVElement modelElement = event.getRowValue().getValue();
+//
+//            if (modelElement == null)
+//                return null;
+//
+//            if (modelElement instanceof MaterialModelElement) {
+//
+//            } else
+//                return null;
+//        });
 
-        });
+//        nameRow.
 
 
         amountRow.setCellFactory(TextFieldTreeTableCell.forTreeTableColumn(new DecimalHideNumberConverter()));
@@ -158,4 +182,15 @@ public class ModelTabController {
                 modelsTTV.getSelectionModel().clearSelection();
         });
     }
+
+    private void loadModelsToTable() {
+        List<Model> list = ModelDBHelper.getAllModels();
+        list.forEach(o -> {
+            modelsTTV.getRoot().getChildren().add(o.getTTVRepresentation());
+        });
+//        modelsTTV.getRoot().getChildren().setAll(ModelDBHelper.getAllModels());
+//        getTreeTableViewRepresentation(ModelDBHelper.getAllModels());
+    }
+
+
 }
