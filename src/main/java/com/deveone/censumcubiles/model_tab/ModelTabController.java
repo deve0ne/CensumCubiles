@@ -2,10 +2,12 @@ package com.deveone.censumcubiles.model_tab;
 
 import com.deveone.censumcubiles.database.ModelDBHelper;
 import com.deveone.censumcubiles.model_tab.model.Model;
+import com.deveone.censumcubiles.model_tab.model_elements.AssemblyModelElement;
+import com.deveone.censumcubiles.model_tab.model_elements.CategoryModelElement;
 import com.deveone.censumcubiles.model_tab.model_elements.MaterialModelElement;
 import com.deveone.censumcubiles.model_tab.model_elements.ModelTTVElement;
 import com.deveone.censumcubiles.model_tab.model_ttv.ModelTreeItem;
-import com.deveone.censumcubiles.number_converters.DecimalHideNumberConverter;
+import com.deveone.censumcubiles.number_converters.DecimalHideConverter;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.Node;
@@ -96,7 +98,7 @@ public class ModelTabController {
 //        nameRow.
 
 
-        amountRow.setCellFactory(TextFieldTreeTableCell.forTreeTableColumn(new DecimalHideNumberConverter()));
+        amountRow.setCellFactory(TextFieldTreeTableCell.forTreeTableColumn(new DecimalHideConverter()));
 
         amountRow.setCellValueFactory(param -> {
             TreeItem<ModelTTVElement> treeItem = param.getValue();
@@ -121,24 +123,35 @@ public class ModelTabController {
         });
 
 
-        costRow.setCellFactory(TextFieldTreeTableCell.forTreeTableColumn(new DecimalHideNumberConverter()));
+        costRow.setCellFactory(TextFieldTreeTableCell.forTreeTableColumn(new DecimalHideConverter()));
 
         costRow.setCellValueFactory(param -> {
             //Очень забавная конструкция
 //            if (!(param.getValue() instanceof ModelTreeItem treeItem))
 //                return null;
 //
-//            ModelTTVElement modelElement = treeItem.getValue();
-//
-//            if (modelElement == null)
-//                return null;
+            TreeItem<ModelTTVElement> treeItem = param.getValue();
+            ModelTTVElement modelElement = treeItem.getValue();
 
-            if (!(param.getValue().getValue() instanceof MaterialModelElement))
+            if (modelElement == null)
                 return null;
 
-            MaterialModelElement matElement = (MaterialModelElement) param.getValue().getValue();
+            if (modelElement instanceof AssemblyModelElement) {
+                double assemblyCost = ModelUtils.calcAssemblyCost(treeItem);
+                return new SimpleDoubleProperty(assemblyCost);
+            }
 
-            return new SimpleDoubleProperty(matElement.getTotalCost());
+            if (modelElement instanceof CategoryModelElement) {
+                double categoryCost = ModelUtils.calcCategoryCost(param.getValue());
+                return new SimpleDoubleProperty(categoryCost);
+            }
+
+            if (modelElement instanceof MaterialModelElement) {
+                MaterialModelElement matElement = (MaterialModelElement) param.getValue().getValue();
+                return new SimpleDoubleProperty(matElement.getTotalCost());
+            }
+
+            return null;
         });
 
         costRow.setEditable(false);
@@ -172,7 +185,6 @@ public class ModelTabController {
                 return;
             }
 
-
             //Поднимается выше пока не найдем строку
             while (source != null && !(source instanceof TreeTableRow<?>))
                 source = source.getParent();
@@ -187,6 +199,4 @@ public class ModelTabController {
         List<Model> list = ModelDBHelper.getAllModels();
         list.forEach(o -> modelsTTV.getRoot().getChildren().add(o.getTTVRepresentation()));
     }
-
-
 }

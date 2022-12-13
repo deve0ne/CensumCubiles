@@ -4,8 +4,8 @@ import com.deveone.censumcubiles.database.MaterialDBHelper;
 import com.deveone.censumcubiles.material.Material;
 import com.deveone.censumcubiles.material.MaterialCategory;
 import com.deveone.censumcubiles.material_tab.material_arrival_dialog.MaterialArrivalDialog;
-import com.deveone.censumcubiles.number_converters.DecimalHideNumberConverter;
-import com.deveone.censumcubiles.number_converters.PriceNumberConverter;
+import com.deveone.censumcubiles.number_converters.DecimalHideConverter;
+import com.deveone.censumcubiles.number_converters.PriceConverter;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -73,7 +73,7 @@ public class MaterialTabController {
         });
 
         materialAmount.setCellValueFactory(new PropertyValueFactory<>("amount"));
-        materialAmount.setCellFactory(TextFieldTableCell.forTableColumn(new DecimalHideNumberConverter()));
+        materialAmount.setCellFactory(TextFieldTableCell.forTableColumn(new DecimalHideConverter()));
         materialAmount.setOnEditCommit(o -> {
             Material newMat = o.getRowValue();
 
@@ -84,7 +84,7 @@ public class MaterialTabController {
         });
 
         materialOneCost.setCellValueFactory(new PropertyValueFactory<>("oneCost"));
-        materialOneCost.setCellFactory(TextFieldTableCell.forTableColumn(new PriceNumberConverter()));
+        materialOneCost.setCellFactory(TextFieldTableCell.forTableColumn(new PriceConverter()));
         materialOneCost.setOnEditCommit(o -> {
             Material newMat = o.getRowValue();
 
@@ -97,7 +97,7 @@ public class MaterialTabController {
 
         materialTotalCost.setCellValueFactory(new PropertyValueFactory<>("totalCost"));
         materialTotalCost.setEditable(false);
-        materialTotalCost.setCellFactory(TextFieldTableCell.forTableColumn(new PriceNumberConverter()));
+        materialTotalCost.setCellFactory(TextFieldTableCell.forTableColumn(new PriceConverter()));
 //        materialTotalCost.setOnEditCommit(o -> o.getRowValue().setTotalCost(o.getNewValue()));
     }
 

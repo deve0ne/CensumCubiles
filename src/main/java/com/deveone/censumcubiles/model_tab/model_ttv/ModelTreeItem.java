@@ -8,6 +8,12 @@ import org.controlsfx.property.BeanPropertyUtils;
 
 import java.util.Properties;
 
+/**
+ * Я не уверен, точно ли оно надо. И что оно вообще делает.
+ * TODO 13.12.22 Разобраться
+ * UPD: Я уверен, что оно на данный момент не надо. Осталось лишь переписать места, где оно используется.
+ */
+
 public class ModelTreeItem extends TreeItem<ModelTTVElement> {
     public ModelTreeItem() {
     }

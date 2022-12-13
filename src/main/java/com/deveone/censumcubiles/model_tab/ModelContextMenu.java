@@ -10,6 +10,10 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableView;
 
+/**
+ * Контекстная менюшка, открывающаяся на различных элементах модели. Позволяет удалять и добавлять эти элементы.
+ */
+
 public class ModelContextMenu extends ContextMenu {
     private final MenuItem addChildren = new MenuItem("Добавить потомка");
     private final MenuItem delSelf = new MenuItem("Удалить этот элемент");

@@ -4,7 +4,11 @@ import javafx.util.converter.NumberStringConverter;
 
 import java.text.DecimalFormat;
 
-public class DecimalHideNumberConverter extends NumberStringConverter {
+/**
+ * Прячет дробную часть, если она равна нулю, а также скрывает незначащие нули в этой дробной части.
+ */
+
+public class DecimalHideConverter extends NumberStringConverter {
     @Override
     public Double fromString(String value) {
         // If the specified value is null or zero-length, return null

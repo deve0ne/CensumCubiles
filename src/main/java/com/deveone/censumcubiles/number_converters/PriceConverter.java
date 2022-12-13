@@ -1,6 +1,10 @@
 package com.deveone.censumcubiles.number_converters;
 
-public class PriceNumberConverter extends DecimalHideNumberConverter {
+/**
+ * Конвертер для валютных полей. Так же как и DecimalHideConverter скрывает дробную часть, если она = 0.
+ */
+
+public class PriceConverter extends DecimalHideConverter {
     @Override
     public Double fromString(String value) {
         if (value == null)

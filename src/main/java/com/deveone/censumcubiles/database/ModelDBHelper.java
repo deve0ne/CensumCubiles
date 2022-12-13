@@ -9,6 +9,10 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+/**
+ * Утилиты взаимодействия с БД для вкладки моделей
+ */
+
 public class ModelDBHelper extends DBHelper {
     public static ArrayList<Model> getAllModels() {
         ArrayList<Model> models = new ArrayList<>();

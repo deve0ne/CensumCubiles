@@ -7,6 +7,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
+/**
+ * Нечто умеющее устанавливать соединение с БД.
+ */
 
 public abstract class DBHelper {
     protected static Connection getConnection() throws SQLException {

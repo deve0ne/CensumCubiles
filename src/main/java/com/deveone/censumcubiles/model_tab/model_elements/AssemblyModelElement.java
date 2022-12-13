@@ -1,5 +1,9 @@
 package com.deveone.censumcubiles.model_tab.model_elements;
 
+/**
+ * @see com.deveone.censumcubiles.model_tab.model_elements.ModelTTVElement
+ */
+
 public class AssemblyModelElement implements ModelTTVElement {
     private String assemblyName;
 

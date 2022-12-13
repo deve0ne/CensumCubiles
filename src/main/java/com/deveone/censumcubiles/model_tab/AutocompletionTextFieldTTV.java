@@ -1,6 +1,5 @@
 package com.deveone.censumcubiles.model_tab;
 
-import com.deveone.censumcubiles.database.DBHelper;
 import com.deveone.censumcubiles.database.MaterialDBHelper;
 import com.deveone.censumcubiles.material.Material;
 import com.deveone.censumcubiles.model_tab.model_elements.ModelTTVElement;
@@ -16,6 +15,11 @@ import org.controlsfx.control.textfield.TextFields;
 
 import java.util.ArrayList;
 import java.util.List;
+
+/**
+ * Планировалось, что эта штука будет открывать выпадающую менюшку с автодополнением имени материала, взятого из БД.
+ * Но пока что не срослось, какие-то проблемы с JavaFX, так что этот функционал отложен. На данный момент нигде не используется.
+ */
 
 public class AutocompletionTextFieldTTV extends TreeTableCell<ModelTTVElement, String> {
     ArrayList<String> autocompletionList = new ArrayList<>();

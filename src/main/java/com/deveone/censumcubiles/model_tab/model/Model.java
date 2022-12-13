@@ -10,10 +10,14 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.TreeItem;
 
 import java.util.ArrayList;
-import java.util.Objects;
+
+/**
+ * Класс, представляющий модель дивана, со всеми входящими в него компонентами и материалами.
+ * В основном используется как промежуточный элемент между БД и TreeTableView
+ */
 
 public class Model {
-    private String modelName;
+    private final String modelName;
     private ArrayList<Material> materials;
 
     public Model(String modelName) {
@@ -25,9 +29,9 @@ public class Model {
         TreeItem<ModelTTVElement> rootItem = new TreeItem<>(new AssemblyModelElement(modelName));
 
         // TODO: 02.12.2022 Какой-то слишком нагруженный цикл, надо бы потом упростить.
-        for (Material material:materials) {
+        for (Material material : materials) {
             ObservableList<TreeItem<ModelTTVElement>> categories = rootItem.getChildren();
-            String matCategory =  material.getCategory().getEncodedRuName();
+            String matCategory = material.getCategory().getEncodedRuName();
 
             TreeItem<ModelTTVElement> categoryTreeItem = findCategoryTreeItem(categories, matCategory);
 
@@ -46,7 +50,7 @@ public class Model {
     }
 
     public TreeItem<ModelTTVElement> findCategoryTreeItem(ObservableList<TreeItem<ModelTTVElement>> listToSearch, String searchedCategory) {
-        for (TreeItem<ModelTTVElement> categoryTreeItem:listToSearch) {
+        for (TreeItem<ModelTTVElement> categoryTreeItem : listToSearch) {
             if (categoryTreeItem.getValue().getName().equals(searchedCategory))
                 return categoryTreeItem;
         }
@@ -81,10 +85,5 @@ public class Model {
         if (!(o instanceof Model)) return false;
         Model model = (Model) o;
         return modelName.equals(model.modelName);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(modelName);
     }
 }

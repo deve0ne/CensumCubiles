@@ -9,6 +9,10 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+/**
+ * Утилиты взаимодействия с БД для вкладки материалов
+ */
+
 public class MaterialDBHelper extends DBHelper{
     public static Material getMaterialByName(String materialName) {
         String sql = ("SELECT * FROM censumcubilesdb.materials WHERE mat_name = ?");
